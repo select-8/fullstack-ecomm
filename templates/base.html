@@ -37,12 +37,24 @@
         <div class="navbar-collapse collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}"><i class="fa fa-user"></i>Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}"><i
+                            class="fa fa-user"></i>Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i
+                            class="fa fa-sign-out-alt"></i>Logout</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i>Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}"><i class="fa fa-user-plus"></i>Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i
+                            class="fas fa-sign-in-alt"></i>Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}"><i
+                            class="fa fa-user-plus"></i>Register</a></li>
                 {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'view_cart' %}" class="nav-link">
+                        <i class="nav-item fa fa-shopping-cart"></i> Cart
+                        {% if product_count > 0 %}
+                        <label class="badge badge-warning">{{ product_count }}</label>
+                        {% endif %}
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -61,7 +73,14 @@
         </div>
     </div>
     {% endif %}
-
+    <div class="container">
+        <div class="display">
+            <form action="{% url 'search' %}" method="GET">
+                <input type="text" name="q">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
     <div class="container">
         {% block content %} {% endblock %}
     </div>
