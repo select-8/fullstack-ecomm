@@ -1,0 +1,7 @@
+Pipfile*
+.env
+.vscode
+*.sqlite3
+*.pyc
+__pycache__
+*DS_Store*
