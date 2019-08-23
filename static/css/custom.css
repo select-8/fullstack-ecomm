@@ -56,7 +56,7 @@ caption p {
 }
 
 .product-description {
-    min-height: 40px;
+    min-height: 75px;
 }
 
 input[type=number]::-webkit-inner-spin-button,

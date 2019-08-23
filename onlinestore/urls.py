@@ -20,16 +20,19 @@ from accounts import urls as account_urls
 from products import urls as product_urls
 from products.views import all_products
 from cart import urls as cart_urls
+from checkout import urls as checkout_urls
 from search import urls as search_urls
 from django.views import static
 from .settings import MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^$', all_products, name="index"),
-    re_path(r'^accounts/', include(account_urls)),
-    re_path(r'^products/', include(product_urls)),
-    re_path(r'^cart/', include(cart_urls)),
-    re_path(r'^search/', include(search_urls)),
+    path('', all_products, name="index"),
+    path('accounts/', include(account_urls)),
+    path('products/', include(product_urls)),
+    path('cart/', include(cart_urls)),
+    path('checkout/', include(checkout_urls)),
+    path('search/', include(search_urls)),
     re_path(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
 ]
+
