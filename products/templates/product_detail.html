@@ -20,6 +20,7 @@
                     {{ product.description }}
                 </p>
                 <p>€{{ product.price }}</p>
+                <p>Average Rating: {{ avg_rating.rating__avg }}</p>
             </div>
 
             <div class="container">
@@ -37,13 +38,11 @@
         </div>
     </div>
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
-        <h1>Add a comment</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form | as_bootstrap }}
-            <button type="submit" class="btn btn-info">Save</button>
-        </form>
-        <p>{{ review.rating }}</p>
+        <h3>Product Reviews</h3>
+        {% for review in reviews %}
+        <p>{{ review.comment }}</p>
+        <hr>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

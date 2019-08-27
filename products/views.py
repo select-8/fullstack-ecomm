@@ -1,7 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Review
-from .forms import ReviewForm
+from django.db.models import Avg
+from .models import Product
+from reviews.models import Review
 
 # Create your views here.
 def all_products(request):
@@ -21,31 +22,17 @@ def product_detail(request, pk):
     '''
 
     product = get_object_or_404(Product, pk=pk)
-    review = get_object_or_404(Review, pk=pk) if pk else None
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES, instance=review)
-        if form.is_valid():
-            review = form.save()
-    else:
-        form = ReviewForm(instance=review)
 
-    product.views += 1
-    product.save()
+    avg_rating = Review.objects.aggregate(Avg('rating'))
 
+    try:
+        reviews = Review.objects.filter(product_id=pk)
+    except:
+        reviews = None
     context = {
         'product': product,
-        'review': review,
-        'form': form,
+        'avg_rating': avg_rating,
+        'reviews': reviews,
+
         }
     return render(request, "product_detail.html", context)
-
-# def review_a_product(request, pk=None):
-#     review = get_object_or_404(Review, pk=pk) if pk else None
-#     if request.method == 'POST':
-#         form = ReviewForm(request.POST, request.FILES, instance=review)
-#         if form.is_valid():
-#             review = form.save()
-#             return redirect(product_detail, review.pk)
-#     else:
-#         form = ReviewForm(instance=review)
-#     return render(request, 'product_detail.html', {'form': form})
