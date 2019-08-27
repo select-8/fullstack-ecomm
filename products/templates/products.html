@@ -14,7 +14,8 @@
                 <p class="product-description">
                     {{ product.description|truncatewords:15 }}
                 </p>
-                <p class="product-name"><a href="{% url 'product_detail' product.id %}" class="btn btn-link">More Details</a></p>
+                <p class="product-name"><a href="{% url 'product_detail' product.id %}" class="btn btn-link">More
+                        Details</a></p>
                 <p>€{{ product.price }}</p>
             </div>
 
@@ -22,8 +23,7 @@
                 <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
                     <div class="input-group">
-                        <input name="quantity" type="number" min="0" max="999" class="form-control"
-                            placeholder="0">
+                        <input name="quantity" type="number" min="0" max="999" class="form-control" placeholder="0">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">Add to Cart</button>
                         </span>

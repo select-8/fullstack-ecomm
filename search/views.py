@@ -4,15 +4,8 @@ from django.contrib import messages
 from django.db.models import Q
 from products.models import Product
 
-# Create your views here.
 
-# def do_search(request):
-#     products = Product.objects.filter(name__icontains=request.GET['q'])
-#     if len(products) == 0:
-#         messages.info(request, "We dont got that")
-#         return redirect(reverse('index'))
-#     else:
-#         return render(request, 'products.html', {"products": products})
+# http://shopnilsazal.github.io/django-pagination-with-basic-search/
 
 def do_search(request):
     product_list = Product.objects.all()
@@ -21,17 +14,26 @@ def do_search(request):
         product_list = Product.objects.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         ).distinct()
-    paginator = Paginator(product_list, 3) #
+    paginator = Paginator(product_list, 3) # 3 products per page
     page = request.GET.get('page')
 
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
         products = paginator.page(1)
     except EmptyPage:
+        # If page is out of range, deliver last page of results.
         products = paginator.page(paginator.num_pages)
 
     context = {
         'products': products
     }
-    return render(request, "product_filter.html", context)
+    
+    amount = len(product_list)
+    if amount == 0:
+        messages.info(request, 'Unfortunately, we do not seem to stock that item.')
+        return redirect(reverse('index'))
+    elif amount > 0:
+        messages.info(request, 'Results: {0} '.format(amount))
+        return render(request, "product_filter.html", context)

@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from .models import Product
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Review
+from .forms import ReviewForm
 
 # Create your views here.
 def all_products(request):
@@ -14,12 +15,37 @@ def all_products(request):
 def product_detail(request, pk):
     '''
     Create a view that returns a single
-    post object based on the post ID (pk) and
-    render it to the 'postdetail.html' template
-    Or return a 404 if the post is not found
+    Product object based on the product ID (pk) and
+    render it to the 'product_detail.html' template
+    Or return a 404 if the post is not found.
     '''
 
     product = get_object_or_404(Product, pk=pk)
-    # product.views += 1
+    review = get_object_or_404(Review, pk=pk) if pk else None
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES, instance=review)
+        if form.is_valid():
+            review = form.save()
+    else:
+        form = ReviewForm(instance=review)
+
+    product.views += 1
     product.save()
-    return render(request, "product_detail.html", {'product': product})
+
+    context = {
+        'product': product,
+        'review': review,
+        'form': form,
+        }
+    return render(request, "product_detail.html", context)
+
+# def review_a_product(request, pk=None):
+#     review = get_object_or_404(Review, pk=pk) if pk else None
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST, request.FILES, instance=review)
+#         if form.is_valid():
+#             review = form.save()
+#             return redirect(product_detail, review.pk)
+#     else:
+#         form = ReviewForm(instance=review)
+#     return render(request, 'product_detail.html', {'form': form})
