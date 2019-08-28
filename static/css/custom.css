@@ -1,5 +1,15 @@
 form {
-    width: 50%;
+    width: 100%;
+}
+
+.payment_form {
+    position: relative;
+    margin-bottom: 0;
+}
+
+#submit_payment_btn {
+    position: absolute;
+    line-height: 1.5;
 }
 
 body {

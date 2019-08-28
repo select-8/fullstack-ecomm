@@ -28,7 +28,9 @@
     </thead>
     {% for item in cart_items %}
     <tr class="caption">
-        <td><div class="thumbimage" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')"></div></td>
+        <td>
+            <div class="thumbimage" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')"></div>
+        </td>
         <td>{{ item.product.name }}</td>
         <td>{{ item.quantity }}</td>
         <td> €{{ item.product.price }}</td>
@@ -40,33 +42,28 @@
     </tr>
 </table>
 
+<div class="container payment_form">
+    <form class="form-group form-row" method="POST" id="payment-form" action="{% url 'checkout' %}">
 
-
-
-
-<div class="col-12">
-    <h4>Payment Details</h4>
-</div>
-<form role="form" method="POST" id="payment-form" action="{% url 'checkout' %}">
-    <div class="form-row">
 
         <div id="credit-card-errors" style="display: none">
             <div class="alert-message block-message error" id="stripe-error-message"></div>
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="col-md-4">
+            <h4>Billing Details</h4>
             {{ order_form|as_bootstrap_inline }}
         </div>
 
-        <div class="form-group col-md-6">
-            {{ payment_form|as_bootstrap_inline }}
+        <div class="col-md-4 offset-md-1">
+            <h4>Card Details</h4>
+            {{ payment_form|as_bootstrap }}
         </div>
-
         {% csrf_token %}
-        <div class="form-group col-md-12">
+        <div class="col-12 d-flex justify-content-center">
             <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
 {% endblock %}
