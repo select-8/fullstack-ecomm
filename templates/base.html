@@ -10,9 +10,6 @@
     <script src="https://kit.fontawesome.com/122bb5e0c6.js"></script>
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" type="text/css" />
 
-    {% block head_js %}
-    {% endblock head_js %}
-
 </head>
 
 <body>
@@ -83,7 +80,8 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-    {% block javascript %}{% endblock %}
+    {% block head_js %}
+    {% endblock head_js %}
 
 </body>
 

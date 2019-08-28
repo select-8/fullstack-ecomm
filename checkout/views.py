@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import MakePaymentForm, OrderForm
@@ -46,6 +46,15 @@ def checkout(request):
                 messages.error(request, "Your card was declined.")
 
             if customer.paid:
+                for id, quantity in cart.items():
+                    product = Product.objects.get(pk=id)
+                    print('')
+                    print(product)
+                    if id == product.id:
+                        product.stock -= quantity
+                    else:
+                        product.stock
+                    product.save()
                 messages.error(request, "You have successfully paid")
                 request.session['cart'] = {}
                 return redirect(reverse('products'))
