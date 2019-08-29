@@ -7,7 +7,7 @@ from reviews.models import Review
 # Create your views here.
 def all_products(request):
     all_products = Product.objects.all()
-    paginator = Paginator(all_products, 3)
+    paginator = Paginator(all_products, 6)
 
     page = request.GET.get('page')
     products = paginator.get_page(page)

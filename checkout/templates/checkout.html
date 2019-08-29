@@ -18,43 +18,39 @@
 
 
 <table class="table table-active table-responsive-sm">
-    <thead>
-        <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Name</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-        </tr>
-    </thead>
-    {% for item in cart_items %}
-    <tr class="caption">
-        <td>
-            <div class="thumbimage" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')"></div>
-        </td>
-        <td>{{ item.product.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td> €{{ item.product.price }}</td>
-        <td>
-            <form class="inform" method="post" action="{% url 'remove_from_cart' item.product.id %}">
-                {% csrf_token %}
-                <div class="input-group">
-
-                    <span class="input-group-btn">
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        {% for item in cart_items %}
+        <tr class="caption">
+            <td>
+                <div class="thumbimage" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')"></div>
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td> €{{ item.product.price }}</td>
+            <td>
+                <form class="inform" method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                    {% csrf_token %}
+                    <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="close" type="submit"><span
-                                    aria-hidden="true">&times;</span></button>
+                            <button class="close" type="submit"><span aria-hidden="true">&times;</span></button>
                         </span>
-                    </span>
-                </div>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td colspan="3"> </td>
-        <td> Total: €{{ total }}</td>
-    </tr>
-</table>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"> </td>
+            <td> Total: €{{ total }}</td>
+        </tr>
+    </table>
 
 <div class="container payment_form">
     <form class="form-group form-row" method="POST" id="payment-form" action="{% url 'checkout' %}">

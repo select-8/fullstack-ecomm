@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from products.models import Product
 
 # Create your views here.
@@ -28,7 +29,8 @@ def add_to_cart(request, id):
         if k == id:
             current_stock -= v
 
-    return redirect(reverse('index'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 def adjust_cart(request, id):
     '''adjust the quantity of the specified product to the specified amount'''
@@ -41,10 +43,10 @@ def adjust_cart(request, id):
         cart.pop(id)
 
     request.session['cart'] = cart
-    return redirect(reverse('view_cart'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def remove_from_cart(request, id):
     cart = request.session.get('cart', {})
     del cart[id]
-    request.session['cart'] = cart   
-    return redirect('view_cart') 
+    request.session['cart'] = cart
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

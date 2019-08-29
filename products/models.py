@@ -7,12 +7,19 @@ class Category(models.Model):
     def __str__(self):
         return self.category
 
+
 class Kind(models.Model):
     kind = models.CharField(max_length=80, default='')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.kind
+
+
+class Brand(models.Model):
+    name = models.CharField(max_length=254, default='')
+    category = models.ForeignKey(Category, default='', on_delete=models.SET_DEFAULT)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=254, default='')
