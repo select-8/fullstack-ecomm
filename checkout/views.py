@@ -50,9 +50,7 @@ def checkout(request):
                     product = get_object_or_404(Product, pk=id)
                     stock = product.stock
                     idd = product.id
-                    print(stock)
                     stock -= quantity
-                    print(stock)
                     update = Product.objects.filter(id=idd).update(stock=stock)
                 messages.error(request, "You have successfully paid")
                 request.session['cart'] = {}

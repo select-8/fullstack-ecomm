@@ -70,20 +70,37 @@ caption p {
 .row.row-flex {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 30px;
+}
+
+.display-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .product-description {
     min-height: 75px;
+    margin-bottom: 5px;
+}
+
+.product-name {
+    min-height: 75px;
+    text-align: center;
+}
+
+.product-details {
+    margin: 0px;
+    text-align: center;
+}
+
+.product-price {
+    font-weight: bold;
+    font-family: 'Lato' sans-serif;
+    font-size: 2em;
 }
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     opacity: 1;
-}
-
-.product-name {
-    text-align: center;
 }
 
 .inform {

@@ -32,7 +32,7 @@ def do_search(request):
     
     amount = len(product_list)
     if amount == 0:
-        messages.info(request, 'Unfortunately, we do not seem to stock that item.')
+        messages.info(request, 'Unfortunately, your search returned no items.')
         return redirect(reverse('index'))
     elif amount > 0:
         messages.info(request, 'Results: {0} '.format(amount))

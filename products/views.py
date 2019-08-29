@@ -23,7 +23,7 @@ def product_detail(request, pk):
 
     product = get_object_or_404(Product, pk=pk)
 
-    avg_rating = Review.objects.aggregate(Avg('rating'))
+    avg_rating = Review.objects.filter(product_id=pk).aggregate(Avg('rating'))
 
     try:
         reviews = Review.objects.filter(product_id=pk)
@@ -33,6 +33,5 @@ def product_detail(request, pk):
         'product': product,
         'avg_rating': avg_rating,
         'reviews': reviews,
-
         }
     return render(request, "product_detail.html", context)
