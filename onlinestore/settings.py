@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'checkout',
     'search',
     'reviews',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

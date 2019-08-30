@@ -2,13 +2,8 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-<p><a href="{% url 'products' 'Books' %}">Books</a></p>
-<p><a href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a></p>
-<p><a href="{% url 'products' 'Toys' %}">Toys & Collectables</a></p>
-
-
 <div class="row row-flex">
-    {% for product in products %}
+    {% for product in products_by_cat %}
 
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
 

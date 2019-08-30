@@ -1,17 +1,55 @@
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg
-from .models import Product
+import django_filters
+from .models import Product, Category
 from reviews.models import Review
+from .filters import ProductFilter
 
-# Create your views here.
+
 def all_products(request):
     all_products = Product.objects.all()
-    paginator = Paginator(all_products, 6)
+    category_list = Category.objects.all()
 
+    f = ProductFilter(request.GET, queryset=Product.objects.all())
+
+    paginator = Paginator(all_products, 3)
     page = request.GET.get('page')
     products = paginator.get_page(page)
-    return render(request, "products.html", {"products": products})
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results.
+        products = paginator.page(paginator.num_pages)
+
+    context = {
+        "products": products,
+        "filter": f,
+        "category_list": category_list,
+    }
+
+    return render(request, "products.html", context)
+
+def product_by_cat(request, category_name=None):
+    all_products = Product.objects.all()
+    categories = Category.objects.all()
+
+    selected_categories = get_object_or_404(Category, category=category_name)
+    products_by_cat = Product.objects.filter(category__category=category_name)
+    print(products_by_cat)
+
+    args = {
+        'selected_categories': selected_categories,
+        'all_products': all_products,
+        'categories': categories,
+        'products_by_cat': products_by_cat,
+    }
+
+    return render(request, 'filtered_by_cat.html', args)
 
 def product_detail(request, pk):
     '''
