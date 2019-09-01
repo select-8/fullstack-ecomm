@@ -2,11 +2,19 @@
 {% load bootstrap_tags %}
 {% block content %}
 
+
 <p><a href="{% url 'products' 'Books' %}">Books</a></p>
 <p><a href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a></p>
 <p><a href="{% url 'products' 'Toys' %}">Toys & Collectables</a></p>
 
-
+<div class="col-12 col-md-6">
+        <div class="display">
+            <form action="{% url 'search' %}" method="GET">
+                <input type="text" name="q">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 <div class="row row-flex">
     {% for product in products %}
 

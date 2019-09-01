@@ -2,7 +2,11 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-outline-secondary" href="{% url 'add_a_review' product_id=product.pk %}">Add Review</a>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <a href="{% url 'products' %}" class="btn btn-link">Back to All Products</a>
@@ -42,6 +46,8 @@
         <h3>Product Reviews</h3>
         {% for review in reviews %}
         <p>{{ review.comment }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <p>{{ review.created }}</p>
         <hr>
         {% endfor %}
     </div>

@@ -40,7 +40,7 @@ def do_search(request):
 
 def cat_filter(request):
     category_list = Category.objects.all()
-    product_list = Product.objects.filter(category="Books")
+    product_list = Product.objects.filter(category__iexact="Books")
     print(product_list)
     link = request.GET.get('cat-link') # name of input button
     if link:

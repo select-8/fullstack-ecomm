@@ -40,16 +40,12 @@ def product_by_cat(request, category_name=None):
 
     selected_categories = get_object_or_404(Category, category=category_name)
     products_by_cat = Product.objects.filter(category__category=category_name)
-    print(products_by_cat)
 
-    args = {
-        'selected_categories': selected_categories,
-        'all_products': all_products,
-        'categories': categories,
+    context = {
         'products_by_cat': products_by_cat,
     }
 
-    return render(request, 'filtered_by_cat.html', args)
+    return render(request, 'filtered_by_cat.html', context)
 
 def product_detail(request, pk):
     '''
@@ -67,6 +63,7 @@ def product_detail(request, pk):
         reviews = Review.objects.filter(product_id=pk)
     except:
         reviews = None
+        
     context = {
         'product': product,
         'avg_rating': avg_rating,
