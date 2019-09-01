@@ -1,10 +1,13 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 import django_filters
 from .models import Product, Category
-from reviews.models import Review
 from .filters import ProductFilter
+from reviews.forms import ReviewForm
+from reviews.models import Review
 
 
 def all_products(request):
@@ -60,13 +63,26 @@ def product_detail(request, pk):
     avg_rating = Review.objects.filter(product_id=pk).aggregate(Avg('rating'))
 
     try:
-        reviews = Review.objects.filter(product_id=pk)
+        reviews = Review.objects.filter(product_id=pk).order_by('-created')
     except:
         reviews = None
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.save()
+            messages.success(request, "Your review has been addeed")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        form = ReviewForm()
+    # return render(request, 'reviewform.html', {'form': form})
         
     context = {
         'product': product,
         'avg_rating': avg_rating,
         'reviews': reviews,
+        'form': form,
         }
     return render(request, "product_detail.html", context)

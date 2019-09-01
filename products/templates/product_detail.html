@@ -2,11 +2,33 @@
 {% load bootstrap_tags %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="row">
     <div class="col-12">
         <a class="btn btn-outline-secondary" href="{% url 'add_a_review' product_id=product.pk %}">Add Review</a>
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-outline-secondary" disabled>Login to add a review</button>
+    </div>
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
+    <h1>Add a comment</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | as_bootstrap }}
+        <button type="submit" class="btn btn-info">Save</button>
+    </form>
+    <p>{{ review.rating }}</p>
+</div>
+{% endif %}
+
+
 <div class="row">
     <div class="col-12">
         <a href="{% url 'products' %}" class="btn btn-link">Back to All Products</a>
@@ -25,7 +47,7 @@
                 </p>
                 <p>€{{ product.price }}</p>
                 <p>Stock: {{ product.stock }}</p>
-                <p>Average Rating: {{ avg_rating.rating__avg }}</p>
+                <p>Average Rating: {{ avg_rating.rating__avg|floatformat }}</p>
             </div>
 
             <div class="container">
