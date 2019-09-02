@@ -18,17 +18,18 @@ from django.urls import path, re_path, include
 from accounts.views import index
 from accounts import urls as account_urls
 from products import urls as product_urls
-from products.views import all_products
+from home.views import top_products
 from cart import urls as cart_urls
 from checkout import urls as checkout_urls
 from search import urls as search_urls
 from reviews import urls as review_urls
+from home import urls as home_urls
 from django.views import static
 from .settings import MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', all_products, name="index"),
+    path('', top_products, name="index"),
     path('accounts/', include(account_urls)),
     path('products/', include(product_urls)),
     path('review/', include(review_urls)),

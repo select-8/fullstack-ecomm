@@ -48,10 +48,13 @@ def checkout(request):
             if customer.paid:
                 for id, quantity in cart.items():
                     product = get_object_or_404(Product, pk=id)
+                    product_id = product.id
                     stock = product.stock
-                    idd = product.id
+                    sales = product.sales
                     stock -= quantity
-                    update = Product.objects.filter(id=idd).update(stock=stock)
+                    sales += quantity
+                    update = Product.objects.filter(id=product_id).update(stock=stock)
+                    update = Product.objects.filter(id=product_id).update(sales=sales)
                 messages.error(request, "You have successfully paid")
                 request.session['cart'] = {}
                 return redirect(reverse('products'))

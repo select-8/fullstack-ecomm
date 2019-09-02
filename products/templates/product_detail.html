@@ -59,19 +59,19 @@
     </div>
 
 </div>
-<div class="row">
-    <div class="col-12 review-text">
+<div class="row review-text">
+    <div class="col-12">
         <h3>Product Reviews</h3>
     </div>
     {% for review in reviews %}
     <div class="col-4">
+        <p>{{ review.created }}</p>
+    </div>
+    <div class="col-4">
         <p>{{ review.comment }}</p>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <p>Rating: {{ review.rating }}</p>
-    </div>
-    <div class="col-4">
-        <p>{{ review.created }}</p>
     </div>
     <hr>
     {% endfor %}

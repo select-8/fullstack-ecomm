@@ -2,6 +2,7 @@
 {% load bootstrap_tags %}
 {% block content %}
 
+
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-4">
@@ -14,17 +15,18 @@
         </div>
     </div>
 </div>
-
 <div class="row row-flex">
-    {% for product in products_by_cat %}
+    {% for product in book_products %}
 
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
 
         <div class="card display-card">
-            <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
-            </div>
-            <hr>
+           <a href="{% url 'product_detail' product.id %}" class="product"
+                    style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
+            </a>
+
             <div class="container">
+                <hr>
                 <h5 class="product-name">{{ product.name }}</h5>
                 <hr>
                 <p class="product-description">
@@ -50,23 +52,4 @@
     {% endfor %}
 </div>
 <br>
-<div class="row">
-    <div class="col-12 justify-content-center pagination">
-        <span class="step-links">
-            {% if products.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ products.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ products.number }} of {{ products.paginator.num_pages }}.
-            </span>
-
-            {% if products.has_next %}
-            <a href="?page={{ products.next_page_number }}">next</a>
-            <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-</div>
 {% endblock %}

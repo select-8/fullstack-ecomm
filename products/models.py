@@ -27,6 +27,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='images')
     stock = models.IntegerField(default=0)
+    sales = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     kind = models.ForeignKey(Kind, on_delete=models.CASCADE)
     views = models.IntegerField(default=0)

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'search',
     'reviews',
     'django_filters',
+    'home',
 ]
 
 MIDDLEWARE = [
