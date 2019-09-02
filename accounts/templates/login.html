@@ -7,11 +7,16 @@
 {% block page_heading %} Login {% endblock %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ login_form | as_bootstrap  }}
-    <button type="submit" class="btn btn-secondary">Log In</button>
-</form>
-
-<p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+<div class="row custom-login">
+    <div class="col-4">
+        <form method="POST">
+            {% csrf_token %}
+            {{ login_form | as_bootstrap_inline  }}
+            <button type="submit" class="btn btn-secondary">Log In</button>
+        </form>
+    </div>
+    <div class="col-12">
+        <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+    </div>
+</div>
 {% endblock %}

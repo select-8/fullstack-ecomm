@@ -1,41 +1,16 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
+
+{% block arrow %}
+<div class="container-fluid">
+    <a href="{% url 'products' %}"><i class="fas fa-long-arrow-alt-left"></i></a>
+</div>
+{% endblock %}
+
 {% block content %}
 
-{% if user.is_authenticated %}
-<div class="row">
-    <div class="col-12">
-        <a class="btn btn-outline-secondary" href="{% url 'add_a_review' product_id=product.pk %}">Add Review</a>
-    </div>
-</div>
-{% else %}
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-outline-secondary" disabled>Login to add a review</button>
-    </div>
-</div>
-{% endif %}
-
-{% if user.is_authenticated %}
-<div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
-    <h1>Add a comment</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form | as_bootstrap }}
-        <button type="submit" class="btn btn-info">Save</button>
-    </form>
-    <p>{{ review.rating }}</p>
-</div>
-{% endif %}
-
-
-<div class="row">
-    <div class="col-12">
-        <a href="{% url 'products' %}" class="btn btn-link">Back to All Products</a>
-    </div>
-</div>
 <div class="row row-flex">
-    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-8">
 
         <div class="card">
             <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')"></div>
@@ -45,9 +20,13 @@
                 <p class="product-description">
                     {{ product.description }}
                 </p>
-                <p>€{{ product.price }}</p>
-                <p>Stock: {{ product.stock }}</p>
-                <p>Average Rating: {{ avg_rating.rating__avg|floatformat }}</p>
+                <div>
+                    <span class="product-price">€{{ product.price }}&nbsp;&nbsp;</span>
+                    <span>Stock: {{ product.stock }}&nbsp;</span>
+                    {% if avg_rating >= 0 %}
+                    <span class="product-price">Average Rating: {{ avg_rating.rating__avg|floatformat }}</span>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="container">
@@ -64,14 +43,37 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
-        <h3>Product Reviews</h3>
-        {% for review in reviews %}
-        <p>{{ review.comment }}</p>
-        <p>Rating: {{ review.rating }}</p>
-        <p>{{ review.created }}</p>
-        <hr>
-        {% endfor %}
+
+    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4 review-text">
+        {% if user.is_authenticated %}
+        <h1>Review this product</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form | as_bootstrap }}
+            <button type="submit" class="btn btn-info">Save</button>
+        </form>
+        <p>{{ review.rating }}</p>
+        {% else %}
+        <h1>Please log in to leave a product review</h1>
+        {% endif %}
     </div>
+
+</div>
+<div class="row">
+    <div class="col-12 review-text">
+        <h3>Product Reviews</h3>
+    </div>
+    {% for review in reviews %}
+    <div class="col-4">
+        <p>{{ review.comment }}</p>
+    </div>
+    <div class="col-4">
+        <p>Rating: {{ review.rating }}</p>
+    </div>
+    <div class="col-4">
+        <p>{{ review.created }}</p>
+    </div>
+    <hr>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -73,11 +73,10 @@ def product_detail(request, pk):
             review = form.save(commit=False)
             review.product = product
             review.save()
-            messages.success(request, "Your review has been addeed")
+            messages.success(request, "Your review has been added")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         form = ReviewForm()
-    # return render(request, 'reviewform.html', {'form': form})
         
     context = {
         'product': product,

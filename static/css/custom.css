@@ -2,18 +2,14 @@ form {
     width: 100%;
 }
 
-.payment_form {
-    position: relative;
-    margin-bottom: 0;
-}
-
-#submit_payment_btn {
-    position: absolute;
-    line-height: 1.5;
-}
-
 body {
     font-family: Lato, Tahoma, Verdana, Geneva, sans-serif;
+    background-color: #21123E;
+}
+
+hr {
+    border: #A83820 .5px solid;
+    margin-top: 0;
 }
 
 footer {
@@ -24,8 +20,54 @@ footer {
     color: #A9A9A9;
 }
 
-hr {
-    margin-top: 0;
+.custom-login {
+    padding-top: 40px;
+    color: #FAFAFA;
+}
+
+.navbar {
+    border-bottom: #A83820 4px solid;
+}
+
+.payment_form {
+    position: relative;
+    margin-bottom: 0;
+}
+
+#submit_payment_btn {
+    position: absolute;
+    line-height: 1.5;
+    color: #A9A9A9;
+}
+
+.site-brand {
+    font-family: 'Cute Font', cursive;
+    font-size: 4rem;
+}
+
+.nav-categories {
+    padding-left: 10px;
+    font-size: 1.5rem;
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+}
+
+.nav-categories a {
+    color: #FFB216;
+}
+
+.pagination {
+    color: #A9A9A9;
+}
+
+.search-box {
+    margin-top: 20px;
+}
+
+.fa-long-arrow-alt-left:before {
+    font-size: 1.5rem;
+    color: #FAFAFA;
+    margin-bottom: 20px;
 }
 
 .icon-bar {
@@ -94,6 +136,7 @@ caption p {
 .product-name {
     min-height: 50px;
     text-align: center;
+    color: #21123E;
 }
 
 .product-details {
@@ -103,7 +146,7 @@ caption p {
 
 .product-price {
     font-weight: bold;
-    font-family: 'Lato' sans-serif;
+    font-family: 'Lato'sans-serif;
     font-size: 1.75rem;
 }
 
@@ -116,9 +159,17 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
 }
 
+.review-text {
+    color: #FAFAFA;
+}
+
+.review-text h3 {
+    padding-top: 20px;
+}
+
 .card {
     /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px 0 #A83820;
     transition: 0.3s;
     border-color: transparent;
     padding: 10px;
@@ -128,7 +179,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* On mouse-over, add a deeper shadow */
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 #A83820;
 }
 
 /* Add some padding inside the card container */
@@ -141,4 +192,11 @@ input[type=number]::-webkit-outer-spin-button {
 .messages {
     display: flex;
     justify-content: flex-end;
+}
+
+/* ........... checkout table ....... */
+
+.table-custom {
+    margin-top: 25px;
+    background-color: #FAFAFA;
 }
