@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Review
 from products.models import Product
 from .forms import ReviewForm
+from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
 
 # Create your views here.
 def add_a_review(request, product_id):
@@ -11,6 +13,7 @@ def add_a_review(request, product_id):
         if form.is_valid():
             review = form.save(commit=False)
             review.product = product
+            review.user = request.user
             review.save()
             return render(request, 'reviewform.html', {'form': form})
     else:

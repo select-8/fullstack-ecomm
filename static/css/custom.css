@@ -110,6 +110,10 @@ footer {
     background-color: #c67605;
 }
 
+.top-heading {
+    color: white;
+}
+
 .product {
     background-size: contain;
     background-position: center center;
@@ -205,6 +209,10 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 10px;
     border-radius: 5px;
     /* 5px rounded corners */
+}
+
+.car-card {
+    max-height: 400px;
 }
 
 /* On mouse-over, add a deeper shadow */

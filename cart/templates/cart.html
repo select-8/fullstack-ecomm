@@ -27,11 +27,11 @@
                             value="{{item.quantity}}">
                     </div>
                 </div>
-                {% if item.cart_stock > 0 %}
-                <button type="submit" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-edit"
+                {% if item.current_stock == 0 %}
+                <button type="submit" class="btn btn-outline-secondary" disabled><span class="glyphicon glyphicon-edit"
                         aria-hidden="true"></span>Update Cart</button>
                 {% else %}
-                <button type="submit" class="btn btn-outline-secondary" disabled><span class="glyphicon glyphicon-edit"
+                <button type="submit" class="btn btn-outline-secondary" ><span class="glyphicon glyphicon-edit"
                     aria-hidden="true"></span>Update Cart</button>
                 {% endif %}
             </form>

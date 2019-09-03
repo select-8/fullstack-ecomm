@@ -22,13 +22,16 @@
         </button>
         <ul class="navbar-nav nav-justified nav-categories">
             <li class="nav-item cat-link">
-                <a {% if '/Toys/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Toys' %}">Toys & Collectables</a>
+                <a {% if '/Toys/' in request.path %} class='nav-link active' {% endif %}
+                    href="{% url 'products' 'Toys' %}">Toys & Collectables</a>
             </li>
             <li class="nav-item cat-link">
-                <a {% if '/Comics/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a>
+                <a {% if '/Comics/' in request.path %} class='nav-link active' {% endif %}
+                    href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a>
             </li>
             <li class="nav-item cat-link">
-                <a {% if '/Books/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Books' %}">Books</a>
+                <a {% if '/Books/' in request.path %} class='nav-link active' {% endif %}
+                    href="{% url 'products' 'Books' %}">Books</a>
             </li>
             <li>
         </ul>
@@ -80,8 +83,15 @@
             <p>Made by accident</p>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
     {% block head_js %}
     {% endblock head_js %}
 

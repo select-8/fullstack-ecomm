@@ -54,6 +54,7 @@ def checkout(request):
                     stock -= quantity
                     sales += quantity
                     update = Product.objects.filter(id=product_id).update(stock=stock)
+                    update = Product.objects.filter(id=product_id).update(cart_stock=stock)
                     update = Product.objects.filter(id=product_id).update(sales=sales)
                 messages.error(request, "You have successfully paid")
                 request.session['cart'] = {}

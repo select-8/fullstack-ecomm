@@ -71,6 +71,7 @@ def product_detail(request, pk):
         if form.is_valid():
             review = form.save(commit=False)
             review.product = product
+            review.user = request.user
             review.save()
             messages.success(request, "Your review has been added")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
