@@ -14,7 +14,18 @@ def all_products(request):
     all_products = Product.objects.all()
     category_list = Category.objects.all()
 
-    paginator = Paginator(all_products, 6)
+    sort_products = all_products.order_by('name')
+
+
+    if request.GET.getlist('sort'):
+        if 'low-to-high' in request.GET.getlist('sort'):
+            # sort products by price low to high
+            sort_products = all_products.order_by('price')
+        if 'high-to-low' in request.GET.getlist('sort'):
+            # sort products by price high to low
+            sort_products = all_products.order_by('-price')
+
+    paginator = Paginator(sort_products, 6)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 

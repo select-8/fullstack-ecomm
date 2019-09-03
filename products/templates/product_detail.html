@@ -10,17 +10,16 @@
 {% block content %}
 
 <div class="row row-flex">
-    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-8">
-
+    <div class="col-12">
         <div class="card">
-            <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')"></div>
+            <div class="product-image-detail" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')"></div>
             <hr>
             <div class="container">
-                <h3 class="product-name">{{ product.name }}</h3>
-                <p class="product-description">
+                <h3 class="product-name-detail">{{ product.name }}</h3>
+                <p class="product-description-detail">
                     {{ product.description }}
                 </p>
-                <table class="table-borderless product-data">
+                <table class="table-borderless product-data-detail">
                     <td class="product-price">€{{ product.price }}</td>
                     {% if avg_rating.rating__avg > 0 %}
                     <td class="product-price text-center"><small>Rating:</small>
@@ -33,14 +32,12 @@
                     {% endif %}
                 </table>
             </div>
-
             <div class="container">
                 <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
                     {% if product.stock > 0 and product.cart_stock > 0 %}
                     <div class="input-group">
-                        <input name="quantity" type="number" min="1" max="999" class="form-control"
-                            placeholder="Quantity">
+                        <input name="quantity" type="number" min="1" max="999" class="form-control" value="1">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">Add</button>
                         </span>
@@ -52,46 +49,58 @@
                                 <button class="btn btn-secondary" type="submit" disabled>Add</button>
                             </span>
                         </div>
-                        {% endif %}
+                    </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
     </div>
-
-    <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4 review-text">
-        {% if user.is_authenticated %}
-        <h1>Review this product</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form | as_bootstrap }}
-            <button type="submit" class="btn btn-info">Save</button>
-        </form>
-        <p>{{ review.rating }}</p>
-        {% else %}
-        <h1>Please log in to leave a product review</h1>
-        {% endif %}
-    </div>
-
 </div>
-<div class="row review-text">
-    <div class="col-12">
-        <h3>Product Reviews</h3>
-        <hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 review-text">
+            {% if user.is_authenticated %}
+            <h1>Review this product</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | as_bootstrap }}
+                <button type="submit" class="btn btn-info">Save</button>
+            </form>
+            <p>{{ review.rating }}</p>
+            {% else %}
+            <h1>Please log in to leave a product review</h1>
+            {% endif %}
+        </div>
     </div>
+</div>
+
+<div class="container">
+    <div class="row review-text">
+        <div class="col-12">
+            <h3>Product Reviews</h3>
+            <hr>
+        </div>
+    </div>
+</div>
+<div class="container">
     {% for review in reviews %}
-    <div class="col-4">
-        <p>{{ review.created }}</p>
-        <hr>
+    <div class="row review-text">
+        <div class="col-4">
+            <p>{{ review.created }}</p>
+        </div>
+        <div class="col-4">
+            <p>{{ review.comment }}</p>
+        </div>
+        <div class="col-2">
+            <p>Rating: {{ review.rating }}</p>
+        </div>
+        <div class="col-2">
+            <p>{{ review.user }}</p>
+        </div>
     </div>
-    <div class="col-4">
-        <p>{{ review.comment }}</p>
-        <hr>
-    </div>
-    <div class="col-2">
-        <p>Rating: {{ review.rating }}</p>
-        <p>{{ review.user }}</p>
-        <hr>
-    </div>
+    <hr>
     {% endfor %}
 </div>
+
 {% endblock %}
