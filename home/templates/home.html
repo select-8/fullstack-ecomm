@@ -16,7 +16,7 @@
     </div>
 </div>
 <div class="row row-flex">
-    {% for product in book_products %}
+    {% for product in top_sellers %}
 
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
 
@@ -24,7 +24,6 @@
            <a href="{% url 'product_detail' product.id %}" class="product"
                     style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
             </a>
-
             <div class="container">
                 <hr>
                 <h5 class="product-name">{{ product.name }}</h5>
@@ -37,13 +36,18 @@
                 <div class="div">
                     <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
                         {% csrf_token %}
+    
                         <div class="input-group">
                             <input name="quantity" type="hidden" class="form-control" placeholder="0" value="1">
                             <span class="input-group-btn">
                                 <p class="product-price">€{{ product.price }}</p>
+                                {% if product.stock > 0 and product.cart_stock > 0 %}
                                 <button class="btn btn-outline-secondary" type="submit">Add to Cart</button>
+                                {% else %}
+                                <button class="btn btn-outline-secondary" type="submit" disabled>Out of stock</button>
+                                {% endif %}
                             </span>
-                        </div>
+                        </div>    
                     </form>
                 </div>
             </div>

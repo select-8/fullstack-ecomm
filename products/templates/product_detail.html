@@ -3,7 +3,7 @@
 
 {% block arrow %}
 <div class="container-fluid">
-    <a href="{% url 'products' %}"><i class="fas fa-long-arrow-alt-left"></i></a>
+    <a href="{% url 'index' %}"><i class="fas fa-long-arrow-alt-left"></i></a>
 </div>
 {% endblock %}
 
@@ -20,25 +20,39 @@
                 <p class="product-description">
                     {{ product.description }}
                 </p>
-                <div>
-                    <span class="product-price">€{{ product.price }}&nbsp;&nbsp;</span>
-                    <span>Stock: {{ product.stock }}&nbsp;</span>
-                    {% if avg_rating >= 0 %}
-                    <span class="product-price">Average Rating: {{ avg_rating.rating__avg|floatformat }}</span>
+                <table class="table-borderless product-data">
+                    <td class="product-price">€{{ product.price }}</td>
+                    {% if avg_rating.rating__avg > 0 %}
+                    <td class="product-price text-center"><small>Rating:</small>
+                        {{ avg_rating.rating__avg|floatformat }}</td>
                     {% endif %}
-                </div>
+                    {% if product.stock > 0 %}
+                    <td class="product-stock">In Stock</td>
+                    {% else %}
+                    <td class="product-stock">Out of Stock</td>
+                    {% endif %}
+                </table>
             </div>
 
             <div class="container">
                 <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
+                    {% if product.stock > 0 and product.cart_stock > 0 %}
                     <div class="input-group">
                         <input name="quantity" type="number" min="1" max="999" class="form-control"
                             placeholder="Quantity">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">Add</button>
                         </span>
-                    </div>
+                        {% else %}
+                        <div class="input-group">
+                            <input name="quantity" type="number" min="1" max="999" class="form-control"
+                                placeholder="Out of Stock" disabled>
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="submit" disabled>Add</button>
+                            </span>
+                        </div>
+                        {% endif %}
                 </form>
             </div>
         </div>
@@ -62,18 +76,21 @@
 <div class="row review-text">
     <div class="col-12">
         <h3>Product Reviews</h3>
+        <hr>
     </div>
     {% for review in reviews %}
     <div class="col-4">
         <p>{{ review.created }}</p>
+        <hr>
     </div>
     <div class="col-4">
         <p>{{ review.comment }}</p>
+        <hr>
     </div>
     <div class="col-2">
         <p>Rating: {{ review.rating }}</p>
+        <hr>
     </div>
-    <hr>
     {% endfor %}
 </div>
 {% endblock %}

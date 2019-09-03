@@ -15,20 +15,20 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
-        <a class="navbar-brand site-brand" href="/">GoS</a>
+        <a class="site-brand" href="/">GoS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav nav-justified nav-categories">
             <li class="nav-item cat-link">
-                <a href="{% url 'products' 'Toys' %}">Toys & Collectables</a>
+                <a {% if '/Toys/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Toys' %}">Toys & Collectables</a>
             </li>
             <li class="nav-item cat-link">
-                <a href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a>
+                <a {% if '/Comics/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Comics' %}">Comics & Graphic Novels</a>
             </li>
             <li class="nav-item cat-link">
-                <a href="{% url 'products' 'Books' %}">Books</a>
+                <a {% if '/Books/' in request.path %} class='nav-link active'{% endif %} href="{% url 'products' 'Books' %}">Books</a>
             </li>
             <li>
         </ul>

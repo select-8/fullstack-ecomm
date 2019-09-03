@@ -4,7 +4,7 @@ from django.db.models import Avg
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 import django_filters
-from .models import Product, Category
+from .models import Product, Category, Kind
 from .filters import ProductFilter
 from reviews.forms import ReviewForm
 from reviews.models import Review
@@ -13,8 +13,6 @@ from reviews.models import Review
 def all_products(request):
     all_products = Product.objects.all()
     category_list = Category.objects.all()
-
-    f = ProductFilter(request.GET, queryset=Product.objects.all())
 
     paginator = Paginator(all_products, 6)
     page = request.GET.get('page')
@@ -31,7 +29,6 @@ def all_products(request):
 
     context = {
         "products": products,
-        "filter": f,
         "category_list": category_list,
     }
 
@@ -43,8 +40,11 @@ def product_by_cat(request, category_name=None):
 
     products_by_cat = Product.objects.filter(category__category=category_name)
 
+    f = ProductFilter(request.GET, queryset=Product.objects.all())
+
     context = {
         'products_by_cat': products_by_cat,
+        "filter": f,
     }
 
     return render(request, 'filtered_by_cat.html', context)
