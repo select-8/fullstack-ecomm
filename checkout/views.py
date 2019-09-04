@@ -12,7 +12,6 @@ import stripe
 
 stripe.api_key = settings.STRIPE_SECRET
 
-@login_required()
 def checkout(request):
     if request.method=="POST":
         order_form = OrderForm(request.POST)
@@ -26,39 +25,41 @@ def checkout(request):
             cart = request.session.get('cart', {})
             total = 0
             for id, quantity in cart.items():
-                product = get_object_or_404(Product, pk=id)
-                total += quantity * product.price
-                order_line_item = OrderLineItem(
-                    order = order,
-                    product = product,
-                    quantity = quantity
-                    )
-                order_line_item.save()
-
-            try:
-                customer = stripe.Charge.create(
-                    amount = int(total * 100),
-                    currency = "EUR",
-                    description = request.user.email,
-                    card = payment_form.cleaned_data['stripe_id'],
-                )
-            except stripe.error.CardError:
-                messages.error(request, "Your card was declined.")
-
-            if customer.paid:
-                for id, quantity in cart.items():
+                if len(cart) > 0:
                     product = get_object_or_404(Product, pk=id)
-                    product_id = product.id
-                    stock = product.stock
-                    sales = product.sales
-                    stock -= quantity
-                    sales += quantity
-                    update = Product.objects.filter(id=product_id).update(stock=stock)
-                    update = Product.objects.filter(id=product_id).update(cart_stock=stock)
-                    update = Product.objects.filter(id=product_id).update(sales=sales)
-                messages.error(request, "You have successfully paid")
-                request.session['cart'] = {}
-                return redirect(reverse('products'))
+                    total += quantity * product.price
+                    order_line_item = OrderLineItem(
+                        order = order,
+                        product = product,
+                        quantity = quantity
+                        )
+                    order_line_item.save()
+                else:
+                    messages.error(request, "Your have nothing in your cart")
+                try:
+                    customer = stripe.Charge.create(
+                        amount = int(total * 100),
+                        currency = "EUR",
+                        description = request.user.email,
+                        card = payment_form.cleaned_data['stripe_id'],
+                    )
+                except stripe.error.CardError:
+                    messages.error(request, "Your card was declined.")
+
+                if customer.paid:
+                    for id, quantity in cart.items():
+                        product = get_object_or_404(Product, pk=id)
+                        product_id = product.id
+                        stock = product.stock
+                        sales = product.sales
+                        stock -= quantity
+                        sales += quantity
+                        update = Product.objects.filter(id=product_id).update(stock=stock)
+                        update = Product.objects.filter(id=product_id).update(cart_stock=stock)
+                        update = Product.objects.filter(id=product_id).update(sales=sales)
+                    messages.error(request, "You have successfully paid")
+                    request.session['cart'] = {}
+                    return redirect(reverse('products'))
             else:
                 messages.error(request, "Unable to take payment")
         else:

@@ -69,6 +69,7 @@ def remove_from_cart(request, id):
     product = get_object_or_404(Product, pk=id)
     cart = request.session.get('cart', {})
     del cart[id]
+    print(cart)
     current_stock = product.stock
     update = Product.objects.filter(id=id).update(cart_stock=current_stock)
     request.session['cart'] = cart
