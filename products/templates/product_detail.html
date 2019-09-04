@@ -25,7 +25,7 @@
                     <td class="product-price text-center"><small>Rating:</small>
                         {{ avg_rating.rating__avg|floatformat }}</td>
                     {% endif %}
-                    {% if product.stock > 0 %}
+                    {% if product.stock > 0 and product.cart_stock > 0 %}
                     <td class="product-stock">In Stock</td>
                     {% else %}
                     <td class="product-stock">Out of Stock</td>
@@ -37,13 +37,13 @@
                     {% csrf_token %}
                     {% if product.stock > 0 and product.cart_stock > 0 %}
                     <div class="input-group">
-                        <input name="quantity" type="number" min="1" max="999" class="form-control" value="1">
+                        <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}" class="form-control" value="1">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">Add</button>
                         </span>
                         {% else %}
                         <div class="input-group">
-                            <input name="quantity" type="number" min="1" max="999" class="form-control"
+                            <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}" class="form-control"
                                 placeholder="Out of Stock" disabled>
                             <span class="input-group-btn">
                                 <button class="btn btn-secondary" type="submit" disabled>Add</button>

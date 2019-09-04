@@ -10,7 +10,7 @@
     </div>
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
+        <ol class="carousel-indicators my-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -46,7 +46,7 @@
                                         <td class="product-price text-center"><small>Rating:</small>
                                             {{ avg_rating.rating__avg|floatformat }}</td>
                                         {% endif %}
-                                        {% if product.stock > 0 %}
+                                        {% if product.stock > 0 and product.cart_stock > 0 %}
                                         <td class="product-stock">In Stock</td>
                                         {% else %}
                                         <td class="product-stock">Out of Stock</td>
@@ -59,11 +59,11 @@
                 </div>
                 {% endfor %}
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev my-0" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next my-0" href="#carouselExampleIndicators" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
@@ -81,7 +81,7 @@
     </div>
 
     <div id="carouselComics" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
+        <ol class="carousel-indicators my-indicators">
             <li data-target="#carouselComics" data-slide-to="0" class="active"></li>
             <li data-target="#carouselComics" data-slide-to="1"></li>
             <li data-target="#carouselComics" data-slide-to="2"></li>
@@ -117,7 +117,7 @@
                                         <td class="product-price text-center"><small>Rating:</small>
                                             {{ avg_rating.rating__avg|floatformat }}</td>
                                         {% endif %}
-                                        {% if product.stock > 0 %}
+                                        {% if product.stock > 0 and product.cart_stock > 0 %}
                                         <td class="product-stock">In Stock</td>
                                         {% else %}
                                         <td class="product-stock">Out of Stock</td>
@@ -152,7 +152,7 @@
     </div>
 
     <div id="carouselBooks" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
+        <ol class="carousel-indicators my-indicators">
             <li data-target="#carouselBooks" data-slide-to="0" class="active"></li>
             <li data-target="#carouselBooks" data-slide-to="1"></li>
             <li data-target="#carouselBooks" data-slide-to="2"></li>
@@ -188,7 +188,7 @@
                                         <td class="product-price text-center"><small>Rating:</small>
                                             {{ avg_rating.rating__avg|floatformat }}</td>
                                         {% endif %}
-                                        {% if product.stock > 0 %}
+                                        {% if product.stock > 0 and product.cart_stock > 0 %}
                                         <td class="product-stock">In Stock</td>
                                         {% else %}
                                         <td class="product-stock">Out of Stock</td>

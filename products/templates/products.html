@@ -2,30 +2,27 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-
-<div id="sort-products">
-    <form action="{% url 'products' %}">
-        <label for="sort">Sort by</label>
-        <select name="sort" id="sort">
-            <option value="PRICE">PRICE</option>
-            <option value="low-to-high">Low to high</option>
-            <option value="high-to-low">High to low</option>
-        </select>
-        <input type="submit" value="Submit">
-    </form>
+<div class="row">
+    <div class="col-2 offset-md-10 sort-products">
+        <form action="{% url 'products' %}">
+            <select class="form-control form-control-sm" name="sort" id="sort" onchange="this.form.submit()">
+                <option value="Sort by cost">Sort by Price</option>
+                <option value="low-to-high">Low to high</option>
+                <option value="high-to-low">High to low</option>
+            </select>
+            <input type="submit" value="Submit" hidden>
+        </form>
+    </div>
 </div>
 
-
+<!-- CARD -->
 <div class="row row-flex">
     {% for product in products %}
-
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
-
         <div class="card display-card">
             <a href="{% url 'product_detail' product.id %}" class="product"
                 style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
             </a>
-
             <div class="container">
                 <hr>
                 <h5 class="product-name">{{ product.name }}</h5>
@@ -42,7 +39,11 @@
                             <input name="quantity" type="hidden" class="form-control" placeholder="0" value="1">
                             <span class="input-group-btn">
                                 <p class="product-price">€{{ product.price }}</p>
+                                {% if product.stock > 0 and product.cart_stock > 0 %}
                                 <button class="btn btn-outline-secondary" type="submit">Add to Cart</button>
+                                {% else %}
+                                <button class="btn btn-outline-secondary" type="submit" disabled>Out of Stock</button>
+                                {% endif %}
                             </span>
                         </div>
                     </form>
@@ -52,7 +53,9 @@
     </div>
     {% endfor %}
 </div>
+<!-- END CARD -->
 <br>
+<!-- PAGINATION -->
 <div class="row">
     <div class="col-12 justify-content-center pagination">
         <span class="step-links">
@@ -72,4 +75,5 @@
         </span>
     </div>
 </div>
+<!-- END PAGINATION -->
 {% endblock %}

@@ -25,7 +25,7 @@ def all_products(request):
             # sort products by price high to low
             sort_products = all_products.order_by('-price')
 
-    paginator = Paginator(sort_products, 6)
+    paginator = Paginator(sort_products, 3)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 
@@ -53,6 +53,19 @@ def product_by_cat(request, category_name=None):
 
     f = ProductFilter(request.GET, queryset=Product.objects.all())
 
+    paginator = Paginator(products_by_cat, 3)
+    page = request.GET.get('page')
+    products_by_cat = paginator.get_page(page)
+
+    try:
+        products_by_cat = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products_by_cat = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results.
+        products_by_cat = paginator.page(paginator.num_pages)
+    
     context = {
         'products_by_cat': products_by_cat,
         "filter": f,
@@ -84,7 +97,6 @@ def product_detail(request, pk):
             review.product = product
             review.user = request.user
             review.save()
-            messages.success(request, "Your review has been added")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         form = ReviewForm()

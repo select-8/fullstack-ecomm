@@ -14,7 +14,7 @@ def do_search(request):
         product_list = Product.objects.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         ).distinct()
-    paginator = Paginator(product_list, 3) # 3 products per page
+    paginator = Paginator(product_list, 6) # 3 products per page
     page = request.GET.get('page')
 
     try:
@@ -35,25 +35,7 @@ def do_search(request):
         messages.info(request, 'Unfortunately, your search returned no items.')
         return redirect(reverse('index'))
     elif amount > 0:
-        messages.info(request, 'Results: {0} '.format(amount))
-        return render(request, "product_filter.html", context)
-
-def cat_filter(request):
-    category_list = Category.objects.all()
-    product_list = Product.objects.filter(category__iexact="Books")
-    print(product_list)
-    link = request.GET.get('cat-link') # name of input button
-    if link:
-        product_list = Product.objects.filter(
-            Q(category__iexact=link)
-        ).distinct()
-    paginator = Paginator(product_list, 3) # 3 products per page
-    page = request.GET.get('page')
-
-    context = {
-        'products': products
-    }
-
-    return render(request, "product_filter.html", context)
+        # messages.info(request, 'Results: {0} '.format(amount))
+        return render(request, "products.html", context)
 
 
