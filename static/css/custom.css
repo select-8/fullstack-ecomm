@@ -214,12 +214,32 @@ caption p {
 .display-card {
     margin-top: 20px;
     margin-bottom: 20px;
+    min-height: 420px;
 }
 
 .product-description {
     min-height: 50px;
     margin-bottom: 5px;
     font-size: .9rem;
+}
+
+.product-price {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 1.2rem;
+}
+
+.cart-from {
+    margin-top: 20px;
+}
+
+.cart-btn {
+    padding-top: 10px;
+    justify-content: space-around;
+}
+
+.cart-btn p {
+    padding-top: 5px;
 }
 
 .more-deets {

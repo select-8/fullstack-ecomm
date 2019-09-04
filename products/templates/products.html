@@ -2,19 +2,6 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-<div class="row">
-    <div class="col-6 offset-md-10 sort-products">
-        <form action="{% url 'products' %}">
-            <select class="form-control form-control-sm" name="sort" id="sort" onchange="this.form.submit()">
-                <option value="Sort by cost">Sort by Price</option>
-                <option value="low-to-high">Low to high</option>
-                <option value="high-to-low">High to low</option>
-            </select>
-            <input type="submit" value="Submit" hidden>
-        </form>
-    </div>
-</div>
-
 <!-- CARD -->
 <div class="row row-flex">
     {% for product in products %}
@@ -29,22 +16,21 @@
                 <hr>
                 <p class="product-description">
                     {{ product.description|truncatewords:10 }}<a href="{% url 'product_detail' product.id %}"
-                        class="btn btn-link more-deets">More
-                        Details</a>
+                        class="btn btn-link more-deets">More</a>
                 </p>
-                <div class="div">
+                <div class="div cart-from">
                     <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
                         {% csrf_token %}
-                        <div class="input-group">
+                        <div class="input-group cart-btn">
                             <input name="quantity" type="hidden" class="form-control" placeholder="0" value="1">
-                            <span class="input-group-btn">
-                                <p class="product-price">€{{ product.price }}</p>
+                            <div class="input-group-btn">
+                                <span class="product-price">€{{ product.price }}&nbsp;&nbsp;</span>
                                 {% if product.stock > 0 and product.cart_stock > 0 %}
                                 <button class="btn btn-outline-secondary" type="submit">Add to Cart</button>
                                 {% else %}
                                 <button class="btn btn-outline-secondary" type="submit" disabled>Out of Stock</button>
                                 {% endif %}
-                            </span>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -16,7 +16,6 @@ def all_products(request):
 
     sort_products = all_products.order_by('name')
 
-
     if request.GET.getlist('sort'):
         if 'low-to-high' in request.GET.getlist('sort'):
             # sort products by price low to high

@@ -64,7 +64,7 @@
             <h1>Review this product</h1>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form | as_bootstrap }}
+                {{ form | as_bootstrap_horizontal }}
                 <button type="submit" class="btn btn-info">Save</button>
             </form>
             <p>{{ review.rating }}</p>
