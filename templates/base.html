@@ -32,6 +32,7 @@
         </ul>
         <div class="navbar-nav nav-icons">
             {% if user.is_authenticated %}
+            <h5 style="display: block; color:tomato">{{ user.get_username }}</h5>
             <p class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i></a>
             </p>
             {% else %}

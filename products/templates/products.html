@@ -47,7 +47,7 @@
         <span class="step-links">
             {% if products.has_previous %}
             <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ products.previous_page_number }}">previous</a>
+            <a href="?page={{ products.previous_page_number }}&sort={{ order }}">previous</a>
             {% endif %}
 
             <span class="current">
@@ -55,7 +55,7 @@
             </span>
 
             {% if products.has_next %}
-            <a href="?page={{ products.next_page_number }}">next</a>
+            <a href="?page={{ products.next_page_number }}&sort={{ order }}">next</a>
             <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </span>

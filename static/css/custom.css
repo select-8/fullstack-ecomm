@@ -149,12 +149,16 @@ hr {
     border-radius: 9px;
 }
 
+.badge-warning {
+    margin-top: 5px;
+}
+
 .label-warning[href],
 .badge-warning[href] {
     background-color: #c67605;
 }
 
-/* ..........PRODUCTS ........... */
+/* .......... PRODUCTS ........... */
 
 .card {
     /* Add shadows to create the "card" effect */

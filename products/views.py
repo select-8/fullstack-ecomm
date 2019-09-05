@@ -13,18 +13,19 @@ from reviews.models import Review
 def all_products(request):
     all_products = Product.objects.all()
     category_list = Category.objects.all()
+    order = request.GET.get('sort')
 
-    sort_products = all_products.order_by('name')
+    products = all_products.order_by('name')
 
     if request.GET.getlist('sort'):
         if 'low-to-high' in request.GET.getlist('sort'):
             # sort products by price low to high
-            sort_products = all_products.order_by('price')
+            products = all_products.order_by('price')
         if 'high-to-low' in request.GET.getlist('sort'):
             # sort products by price high to low
-            sort_products = all_products.order_by('-price')
+            products = all_products.order_by('-price')
 
-    paginator = Paginator(sort_products, 6)
+    paginator = Paginator(products, 6)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 
@@ -40,6 +41,7 @@ def all_products(request):
     context = {
         "products": products,
         "category_list": category_list,
+        "order": order,
     }
 
     return render(request, "products.html", context)
