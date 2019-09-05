@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
 {% load bootstrap_tags %}
+
+{% block head_js %}
+<script type="text/javascript" src="{% static 'js/static.js' %}"></script>
+{% endblock head_js %}
 
 {% block arrow %}
 <div class="container-fluid">
@@ -16,21 +21,21 @@
             <hr>
             <div class="container">
                 <h3 class="product-name-detail">{{ product.name }}</h3>
-                <p class="product-description-detail">
+                <p class="product-description-detail more">
                     {{ product.description }}
                 </p>
-                <table class="table-borderless product-data-detail">
-                    <td class="product-price">€{{ product.price }}</td>
+                <div class="product-data-detail">
+                    <span class="product-price-detail">€{{ product.price }}</span>
                     {% if avg_rating.rating__avg > 0 %}
-                    <td class="product-price text-center"><small>Rating:</small>
-                        {{ avg_rating.rating__avg|floatformat }}</td>
+                    <span class="product-rating-detail text-center"><small>Rating:</small>
+                        {{ avg_rating.rating__avg|floatformat }}</span>
                     {% endif %}
                     {% if product.stock > 0 and product.cart_stock > 0 %}
-                    <td class="product-stock">In Stock</td>
+                    <span class="product-stock-detail">In Stock</span>
                     {% else %}
-                    <td class="product-stock">Out of Stock</td>
+                    <span class="product-stock-detail">Out of Stock</span>
                     {% endif %}
-                </table>
+                </div>
             </div>
             <div class="container">
                 <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">
@@ -66,7 +71,9 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form | as_bootstrap_horizontal }}
-                <button type="submit" class="btn btn-info">Save</button>
+                <div class="btn-review">
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
             </form>
         </div>
         <div class="col-2 offset-md-6">
@@ -80,28 +87,22 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row review-text">
-        <div class="col-12">
-            <h3>Product Reviews</h3>
-            <hr>
-        </div>
+
+<div class="container-fluid">
+    <div class="col-12 review-text">
+        <h3>Product Reviews</h3>
     </div>
-</div>
-<div class="container">
+    <hr>
     {% for review in reviews %}
     <div class="row review-text">
         <div class="col-4">
-            <p>{{ review.created }}</p>
+            <p>Left by <span style="color:tomato">{{ review.user }}</span> :&nbsp;{{ review.created }}</p>
         </div>
-        <div class="col-4">
+        <div class="col-6">
             <p>{{ review.comment }}</p>
         </div>
         <div class="col-2">
             <p>Rating: {{ review.rating }}</p>
-        </div>
-        <div class="col-2">
-            <p>{{ review.user }}</p>
         </div>
     </div>
     <hr>

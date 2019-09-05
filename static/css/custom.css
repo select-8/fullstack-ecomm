@@ -24,7 +24,7 @@ hr {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 10px;
-    font-family: 'Cute Font', cursive; 
+    font-family: 'Cute Font', cursive;
 }
 
 .top-heading h2 {
@@ -274,7 +274,7 @@ caption p {
 }
 
 .product-stock {
-    float: right; 
+    float: right;
     color: darkgreen;
     font-size: 1.2rem;
 }
@@ -282,11 +282,11 @@ caption p {
 .product-description-detail {
     min-height: 100px;
     margin-bottom: 5px;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
 }
 
-.product-name-detail  {
-    font-size: 2rem;
+.product-name-detail {
+    font-size: 3rem;
     min-height: 50px;
     text-align: center;
     color: #21123E;
@@ -301,12 +301,17 @@ caption p {
     width: 100%;
     font-weight: bold;
     font-family: 'Lato'sans-serif;
-    font-size: 1.75rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+    margin-bottom: 5px;
 }
 
-.product-data-detail td {
-    padding: 20px;
+.product-stock-detail {
+    font-size: 2rem;
+    color: green;
 }
+
 
 
 /* .............END PRODUCT ........*/
@@ -361,5 +366,21 @@ footer {
 
 #div_id_rating .col-md-10 {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+}
+
+
+
+a {
+	color: #0254EB
+}
+a:visited {
+	color: #0254EB
+}
+a.morelink {
+	text-decoration:none;
+	outline: none;
+}
+.morecontent span {
+	display: none;
 }
