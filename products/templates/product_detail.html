@@ -37,14 +37,15 @@
                     {% csrf_token %}
                     {% if product.stock > 0 and product.cart_stock > 0 %}
                     <div class="input-group">
-                        <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}" class="form-control" value="1">
+                        <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}" class="form-control"
+                            value="1">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="submit">Add</button>
                         </span>
                         {% else %}
                         <div class="input-group">
-                            <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}" class="form-control"
-                                placeholder="Out of Stock" disabled>
+                            <input name="quantity" type="number" min="1" max="{{ product.cart_stock }}"
+                                class="form-control" placeholder="Out of Stock" disabled>
                             <span class="input-group-btn">
                                 <button class="btn btn-secondary" type="submit" disabled>Add</button>
                             </span>
@@ -67,9 +68,13 @@
                 {{ form | as_bootstrap_horizontal }}
                 <button type="submit" class="btn btn-info">Save</button>
             </form>
+        </div>
+        <div class="col-2 offset-md-6">
             <p>{{ review.rating }}</p>
+        </div>
+        <div class=col-12>
             {% else %}
-            <h1>Please log in to leave a product review</h1>
+            <h1>Please log in to leave a review</h1>
             {% endif %}
         </div>
     </div>

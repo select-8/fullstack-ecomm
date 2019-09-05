@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 if os.environ.get('DEVELOPMENT'):
     development = True
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'reviews',
     'django_filters',
     'home',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -92,12 +94,18 @@ WSGI_APPLICATION = 'onlinestore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+if "DATABASE_URL" in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv("DATABASE_URL"))
+        }
+else:
+    print('Database URL not found, using sqlite instead')
+    DATABASES = {
+        'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
 
 # Password validation
