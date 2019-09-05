@@ -5,10 +5,6 @@ from django.contrib import admin
 from django.forms import widgets
 from django.forms.widgets import RadioSelect
 
-
-
-
-
 class ReviewForm( forms.ModelForm ):
     RATING_CHOISES = (
         (0, '0'),
@@ -18,9 +14,8 @@ class ReviewForm( forms.ModelForm ):
         (4, '4'),
         (5, '5'),
     )
-
     comment = forms.CharField(widget=forms.Textarea(attrs={"rows":5, "cols":20}))
-    rating = forms.ChoiceField(choices=RATING_CHOISES)
+    rating = forms.ChoiceField(choices=RATING_CHOISES, widget=forms.RadioSelect)
 
     class Meta:
         model = Review

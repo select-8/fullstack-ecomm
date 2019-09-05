@@ -24,7 +24,7 @@ def all_products(request):
             # sort products by price high to low
             sort_products = all_products.order_by('-price')
 
-    paginator = Paginator(sort_products, 3)
+    paginator = Paginator(sort_products, 6)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 

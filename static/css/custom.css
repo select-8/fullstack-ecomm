@@ -166,6 +166,11 @@ hr {
     /* 5px rounded corners */
 }
 
+.card-home {
+    box-shadow: none;
+    min-height: 400px;
+}
+
 .car-card {
     max-height: 400px;
 }
@@ -313,6 +318,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .review-text {
     color: #FAFAFA;
+    padding: 20px;
 }
 
 .review-text h3 {
@@ -347,4 +353,9 @@ footer {
     padding-bottom: 40px;
     border-top: 1px solid #ededed;
     color: #A9A9A9;
+}
+
+#div_id_rating .col-md-10 {
+    display: flex;
+    justify-content: space-evenly;
 }
