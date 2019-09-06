@@ -54,7 +54,7 @@ def product_by_cat(request, category_name=None):
 
     f = ProductFilter(request.GET, queryset=Product.objects.all())
 
-    paginator = Paginator(products_by_cat, 3)
+    paginator = Paginator(products_by_cat, 6)
     page = request.GET.get('page')
     products_by_cat = paginator.get_page(page)
 

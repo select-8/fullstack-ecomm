@@ -8,7 +8,7 @@
 
 {% block arrow %}
 <div class="container-fluid">
-    <a href="{% url 'index' %}"><i class="fas fa-long-arrow-alt-left"></i></a>
+    <a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-long-arrow-alt-left"></i></a>
 </div>
 {% endblock %}
 
@@ -21,19 +21,20 @@
             <hr>
             <div class="container">
                 <h3 class="product-name-detail">{{ product.name }}</h3>
+                <!-- https://www.viralpatel.net/dynamically-shortened-text-show-more-link-jquery/ -->
                 <p class="product-description-detail more">
                     {{ product.description }}
                 </p>
                 <div class="product-data-detail">
                     <span class="product-price-detail">€{{ product.price }}</span>
-                    {% if avg_rating.rating__avg > 0 %}
-                    <span class="product-rating-detail text-center"><small>Rating:</small>
-                        {{ avg_rating.rating__avg|floatformat }}</span>
-                    {% endif %}
                     {% if product.stock > 0 and product.cart_stock > 0 %}
-                    <span class="product-stock-detail">In Stock</span>
+                    <span class="product-stock-detail text-center">In Stock</span>
                     {% else %}
-                    <span class="product-stock-detail">Out of Stock</span>
+                    <span class="product-stock-detail text-center">Out of Stock</span>
+                    {% endif %}
+                    {% if avg_rating.rating__avg > 0 %}
+                    <span class="product-rating-detail d-flex justify-content-end"><small>Rating:</small>
+                        {{ avg_rating.rating__avg|floatformat }}</span>
                     {% endif %}
                 </div>
             </div>
