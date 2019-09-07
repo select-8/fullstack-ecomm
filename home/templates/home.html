@@ -34,6 +34,7 @@
                                     <a href="{% url 'product_detail' product.id %}" class="product">
                                         <h3 class="product-name">{{ product.name }}</h3>
                                     </a>
+                                    <hr>
                                     <p class="product-description">
                                         {{ product.description|truncatewords:10 }}<a
                                             href="{% url 'product_detail' product.id %}"
@@ -105,6 +106,7 @@
                                     <a href="{% url 'product_detail' product.id %}" class="product">
                                         <h3 class="product-name">{{ product.name }}</h3>
                                     </a>
+                                    <hr>
                                     <p class="product-description">
                                         {{ product.description|truncatewords:10 }}<a
                                             href="{% url 'product_detail' product.id %}"
@@ -176,6 +178,7 @@
                                     <a href="{% url 'product_detail' product.id %}" class="product">
                                         <h3 class="product-name">{{ product.name }}</h3>
                                     </a>
+                                    <hr>
                                     <p class="product-description">
                                         {{ product.description|truncatewords:10 }}<a
                                             href="{% url 'product_detail' product.id %}"

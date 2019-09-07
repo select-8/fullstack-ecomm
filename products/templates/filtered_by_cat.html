@@ -40,23 +40,25 @@
     {% endfor %}
 </div>
 <br>
+<!-- PAGINATION -->
 <div class="row">
     <div class="col-12 justify-content-center pagination">
         <span class="step-links">
             {% if products_by_cat.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ products_by_cat.previous_page_number }}">previous</a>
+            <a class="page-first-last" href="?page=1">&laquo; first</a>
+            <a class="page-next-pre" href="?page={{ products_by_cat.previous_page_number }}&sort={{ order }}">previous</a>
             {% endif %}
 
             <span class="current">
-                Page {{ products_by_cat.number }} of {{ products_by_cat.paginator.num_pages }}.
+                - Page <span class="page">{{ products_by_cat.number }}</span> of <span>{{ products_by_cat.paginator.num_pages }} -</span>
             </span>
 
             {% if products_by_cat.has_next %}
-            <a href="?page={{ products_by_cat.next_page_number }}">next</a>
-            <a href="?page={{ products_by_cat.paginator.num_pages }}">last &raquo;</a>
+            <a class="page-next-pre" href="?page={{ products_by_cat.next_page_number }}&sort={{ order }}">next</a>
+            <a class="page-first-last" href="?page={{ products_by_cat.paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </span>
     </div>
 </div>
+<!-- END PAGINATION -->
 {% endblock %}

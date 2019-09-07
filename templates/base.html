@@ -9,13 +9,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/122bb5e0c6.js"></script>
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" type="text/css" />
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon">
 
 </head>
 
 <body>
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-decoration" style="background-color: #000000;">
-        <a class="site-brand" href="/">GoS</a>
+        <div class="row">
+            <div class="col-12">
+                {% if user.is_authenticated %}
+                <label class="users_name">{{ user.get_username }}</<label>
+                    {% endif %}
+                    <h3><a class="site-brand" href="/">GoS</a></h3>
+            </div>
+        </div>
         <ul class="navbar-nav nav-justified nav-categories">
             <li class="nav-item cat-link">
                 <a {% if '/Toys/' in request.path %} class='nav-link active' {% endif %}
@@ -30,19 +39,18 @@
                     href="{% url 'products' 'Books' %}">Books</a>
             </li>
         </ul>
-        <div class="navbar-nav nav-icons">
+        <div class="custom-nav-content">
             {% if user.is_authenticated %}
-            <h5 style="display: block; color:tomato">{{ user.get_username }}</h5>
-            <p class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i></a>
+            <p class="nav-item"><a href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i></a>
             </p>
             {% else %}
-            <p class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i></a>
+            <p class="nav-item"><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i></a>
             </p>
-            <p class="nav-item"><a class="nav-link" href="{% url 'registration' %}"><i class="fa fa-user-plus"></i></a>
+            <p class="nav-item"><a href="{% url 'registration' %}"><i class="fa fa-user-plus"></i></a>
             </p>
             {% endif %}
-            <p class="nav-item">
-                <a href="{% url 'view_cart' %}" class="nav-link">
+            <p>
+                <a href="{% url 'view_cart' %}">
                     <i class="nav-item fa fa-shopping-cart"></i>
                     {% if product_count > 0 %}
                     <label class="badge badge-warning">{{ product_count }}</label>
@@ -60,13 +68,13 @@
                     <input class="form-control" type="text" placeholder="Search" name="q" aria-label="Search">
                 </form>
             </div>
-            <div class="col-12 col-md-4 d-flex justify-content-md-center">
+            <div class="col-5 d-flex justify-content-md-center">
                 <div class="div text-center browse-all">
-                    <a href="{% url 'products' %}">Browse All Products</a>
+                    <a href="{% url 'products' %}">Browse All <span>Products</span></a>
                 </div>
             </div>
             {% if '/all_products/' in request.path %}
-            <div class="col-2 offset-md-1 sort-products">
+            <div class="col-5 col-md-2 offset-1 sort-products">
                 <form action="{% url 'products' %}">
                     <select class="form-control form-control-sm" name="sort" id="sort" onchange="this.form.submit()">
                         <option value="Sort by cost">Sort by Price</option>

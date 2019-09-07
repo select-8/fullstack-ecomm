@@ -59,10 +59,27 @@ hr {
     text-decoration: none;
 }
 
+.users_name {
+    color: tomato;
+}
+
+.custom-nav-content h5 {
+    display: block;
+    color: tomato;
+    font-family: 'Cute Font', cursive;
+    font-size: 2rem;
+}
+
+.custom-nav-content a {
+    color: #A9A9A9
+}
 
 @media(min-width: 900px) {
-    .nav-icons p {
+    .custom-nav-content p {
         margin: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
     }
 }
 
@@ -80,8 +97,13 @@ hr {
 .browse-all a {
     font-size: 1.5rem;
     font-family: 'Lato', sans-serif;
-    /* text-decoration: none; */
     color: #A83820;
+}
+
+@media(max-width: 600px) {
+    .browse-all span {
+        display: none;
+    }
 }
 
 /* .......... FORMS ........ */
@@ -128,8 +150,26 @@ hr {
 }
 
 .pagination {
-    color: #A9A9A9;
+    color: #FAFAFA;
 }
+
+.pagination .page-first-last {
+    color: tomato;
+}
+
+.pagination .page-next-pre {
+    color: #FFB216;
+}
+
+.pagination .current {
+    font-family: 'Cute Font', cursive;
+    font-size: 1.8rem;
+}
+
+.pagination .current .page {
+    font-size: 2.5rem;
+}
+
 
 .fa-long-arrow-alt-left:before {
     font-size: 1.5rem;
@@ -211,10 +251,6 @@ hr {
     margin: 0;
 }
 
-caption p {
-    word-wrap: break-word;
-}
-
 .row.row-flex {
     display: flex;
     flex-wrap: wrap;
@@ -259,6 +295,9 @@ caption p {
     min-height: 50px;
     text-align: center;
     color: #21123E;
+    font-family: 'Cute Font', cursive;
+    font-size: 1.8rem;
+    line-height: 1.5rem;
 }
 
 .product-details {
@@ -292,7 +331,8 @@ caption p {
 }
 
 .product-name-detail {
-    font-size: 3rem;
+    font-family: 'Cute Font', cursive;
+    font-size: 4rem;
     min-height: 50px;
     text-align: center;
     color: #21123E;
@@ -308,10 +348,8 @@ caption p {
     font-weight: bold;
     font-family: 'Lato'sans-serif;
     display: grid;
-    /* display: flex;
-    justify-content: space-between; */
     font-size: 2rem;
-    margin-bottom: 5px;
+    margin: 15px 0;
 }
 
 @media(min-width: 900px) {
@@ -322,7 +360,6 @@ caption p {
 }
 
 .product-stock-detail {
-    font-size: 2rem;
     color: green;
 }
 
