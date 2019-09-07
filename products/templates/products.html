@@ -15,8 +15,8 @@
                 <h5 class="product-name">{{ product.name }}</h5>
                 <hr>
                 <p class="product-description">
-                    {{ product.description|truncatewords:10 }}<a href="{% url 'product_detail' product.id %}"
-                        class="btn btn-link more-deets">More</a>
+                    {{ product.description|truncatewords:10 }}<span><a href="{% url 'product_detail' product.id %}"
+                            class="btn btn-link more-deets">More Information</a></span>
                 </p>
                 <div class="div cart-from">
                     <form class="inform" method="post" action="{% url 'add_to_cart' product.id %}">

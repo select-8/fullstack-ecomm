@@ -12,7 +12,6 @@ class Review(models.Model):
         (4, '4'),
         (5, '5'),
     )
-    # user_id = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     comment = models.CharField(max_length=254, default='')
     rating = models.IntegerField(choices=RATING_CHOISES, default=0)

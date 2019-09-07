@@ -2,6 +2,12 @@
 {% load static from staticfiles %}
 {% load bootstrap_tags %}
 
+{% block arrow %}
+<div class="container-fluid">
+    <a href="/products/all_products/"><i class="fas fa-long-arrow-alt-left"></i></a>
+</div>
+{% endblock %}
+
 {% block content %}
 <table class="table table-active table-responsive-sm table-custom">
     <thead>

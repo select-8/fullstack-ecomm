@@ -8,7 +8,7 @@
 
 {% block arrow %}
 <div class="container-fluid">
-    <a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-long-arrow-alt-left"></i></a>
+    <a href="/products/all_products/"><i class="fas fa-long-arrow-alt-left"></i></a>
 </div>
 {% endblock %}
 
@@ -35,6 +35,10 @@
                     {% if avg_rating.rating__avg > 0 %}
                     <span class="product-rating-detail d-flex justify-content-end"><small>Rating:</small>
                         {{ avg_rating.rating__avg|floatformat }}</span>
+                    {% else %}
+                    <span class="product-rating-detail d-flex justify-content-end">
+                        <small>Be the first to review this product.</small>
+                    </span>
                     {% endif %}
                 </div>
             </div>
