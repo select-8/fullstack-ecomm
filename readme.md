@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-The project presented [here](https://greenlit-flaskapp.herokuapp.com/) is an imagined e-commerce site. The people at GoS are in the business of selling comics and graphic novels, toys and collectables related to comics and graphic novels, and some classic and modern Sci-Fi novels. A real world version would be something like [Forbidden Planet](https://forbiddenplanet.com/).
+The project presented [here](https://fullstack-ecom.herokuapp.com/) is an imagined e-commerce site. The people at GoS are in the business of selling comics and graphic novels, toys and collectables related to comics and graphic novels, and some classic and modern Sci-Fi novels. A real world version would be something like [Forbidden Planet](https://forbiddenplanet.com/).
 
 I would imagine the store to have a long standing high street presence, with one or two stores in couple of cities around the country. This site represents their first entry to the online market.
 
@@ -23,18 +23,18 @@ The goals of this project are to:
 
 ### User Stories
 
- ##### As a user I want to ...
+##### As a user I want to ...
   - quickly understand whats on offer at this site.
   - search for items I'm interested in.
   - filter the content presented by category i.e. I'm here to look at comics, I dont need to see toys.
-  - be navigatation of the site to be easy and intuative. 
+  - have navigatation of the site to be easy and intuative. 
   - sort items by price (high-to-low and low-to-high).
-  - access to detailed information about products.
+  - have access to detailed information about products.
   - add products to a cart as I browse.
   - be able to access my cart easily.
   - be able to edit my cart by adding or deleting items.
   - be able to register for the site.
-  - know if I am logged in, some personalisation. 
+  - know if I am logged in with some personalisation. 
   - be able to leave a comments and ratings for products.
   - see what others have said about products.
   - see an average of all ratings for each product.
@@ -65,11 +65,11 @@ Each product is one of three possible categories
 
 #### Product
 The main model for all products.
-Note: kind_id and views are not utilised in this project but may be in the future.
+Note: the __kind_id__ and __views__ fields are not utilised in this project but may be in the future.
 
 - id: PK
 - name, description, price and image are static fileds, simply rendered, they don't change on user interaction with site.
-- category_id: 1-M FK constraint
+- category_id: 1-M FK relationship with the Category table, delete cadcades to Products
 - stock: count of physical instances of this product
 - cart_stock: count of physical instances of this product less whats currently in carts
 - sales: amount of this product which has cleared through checkout
@@ -162,7 +162,7 @@ Cute Font was used for:
 
 #### Colour
 
-Dark Black for the Navbar works well with the Purple used as the main background colour. While maintaining a dark shell shell around the lighter content, they are also distinct from each other.
+Dark Black for the Navbar works well with the Purple used as the main background colour. While maintaining a dark shell around the lighter content, they are also distinct from each other.
 The Purple is used to convey that sense of mystery as required by the site brand.
 
 The cards are Bootstrap, with a White background colour and black text. The product name in Cute Font use the same Purple as the container background. Ive used a dark red to block out the card content.
@@ -252,44 +252,55 @@ The product model should have distinct classes for each category of product. Wit
 
 Stock control should be its own app to afford it more complexity. Currently the stock in a cart is only factored into the UX once it hit zero. In a future developement each tick of the quantity button would be calculated to give the user feedback.
 
+From testing I found a few bugs the stock/cart system, for example if a user adds all available of an item to the cart they cannot, once in cart view, remove quantities via the input, they need to remove the whole item and start again. 
+
+I see this site as having a loyal customer base. I would extend the logged in user element by creating a members area. Members could avail of special offers, organise meet ups to play Dungeons and Dragons, get first on list for pre orders and special items.
+
+An auction feature for rare items like Spiderman #1 or a signed copy of The Watchmen etc.
+
 ## Testing
 
-Besides checking data types, there is no automated testing.
+Besides checking data types, there is no real useful automated testing.
 
 Manual Testing through development of the site consisted of asking the following questions each time a significant feature was added, removed or changed. 
 
 What happens:
 
-    - when users click links, are they ever confused about where they are, do they have further options, can they always get home
-        - logged in
-        - not logged in
-        - after initial register
-        - after logging out
-    - when user enter incorrect username/password
-    - to the cart and add button when a user adds or removes items from their cart
-    - when a user removes cart items and proceeds through checkout
-    - when a user adds a review comment but not a rating and vice versa
+- when users click links, are they ever confused about where they are, do they have further options, can they always get home
+    - logged in
+    - not logged in
+    - after initial register
+    - after logging out
+- when user enter incorrect username/password
+- to the cart and add button when a user adds or removes items from their cart
+- when a user removes cart items and proceeds through checkout
+- when a user adds a review comment but not a rating and vice versa
 
 Is the messaging correct when a user goes through the reset password process.
 
-Site functions where the db is updated where tested against the database, both locally as SQLITE and once deployed as Postgres.
+Functions where the db is updated were tested against the database, both locally as SQLITE and once deployed as Postgres.
 
 The remote Postgres DB can be connected to via the terminal using the PSQL command line tool and the credentials available on the Heroku site.
 
-For example, I can add a quantity of 'Foundation' to the cart and query the db for expected results.
+For example, I can add a quantity of the novel 'Foundation' to the cart and query the db for expected results.
 
         id |    name    | stock | cart_stock | sales 
         ----+------------+-------+------------+-------
         23 | Foundation |     1 |          0 |    45
         (1 row)
 
-Then proceed through checkout and query again:
+I can remove it from the cart and check again:
+
+        id |    name    | stock | cart_stock | sales 
+        ----+------------+-------+------------+-------
+        23 | Foundation |     1 |          1 |    45
+
+Re add to cart, proceed through checkout and query again:
 
         id |    name    | stock | cart_stock | sales 
         ----+------------+-------+------------+-------
         23 | Foundation |     0 |          0 |    46
 
-The site deployed to Heroku was also periodically tested asking the above questions.
 
 ##### Users
 
@@ -346,6 +357,7 @@ The site is deployed to Heroku under the following process:
     - In your project make sure to have whitenoise, dj-database-url, psycopg2 and gunicorn installed
     - In your project folder create a Procfile with the gunicorn server referenced 
     - Add subsequent variables:
+        - COLLECTSTATIC : 1
         - EMAIL_ADDRESS and EMAIL_PASSWORD for password reset feature
         - Django SECRET_KEY (from generated setting.py on running startproject)
         - STRIPE_PUBLISHABLE and STRIPE_SECRET provided by Stripe
@@ -356,6 +368,7 @@ The site is deployed to Heroku under the following process:
     - Once the project is built by Heroku, open the app
     - Debug any issues present in the logs
     - Allow automatic deploys
+    - Select: Wait for CI to pass before deploy
 
 
 ### How to clone locally
@@ -404,7 +417,6 @@ The site can be cloned from GitHub and ran locally by following the following st
 Create virtual python environments.
 
 Use pipenv install ... to install project requirments 
-
 
 ##### FRAMEWORKS
 
