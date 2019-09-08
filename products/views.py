@@ -19,10 +19,8 @@ def all_products(request):
 
     if request.GET.getlist('sort'):
         if 'low-to-high' in request.GET.getlist('sort'):
-            # sort products by price low to high
             products = all_products.order_by('price')
         if 'high-to-low' in request.GET.getlist('sort'):
-            # sort products by price high to low
             products = all_products.order_by('-price')
 
     paginator = Paginator(products, 6)
@@ -46,6 +44,7 @@ def all_products(request):
 
     return render(request, "products.html", context)
 
+
 def product_by_cat(request, category_name=None):
     all_products = Product.objects.all()
     categories = Category.objects.all()
@@ -66,13 +65,14 @@ def product_by_cat(request, category_name=None):
     except EmptyPage:
         # If page is out of range, deliver last page of results.
         products_by_cat = paginator.page(paginator.num_pages)
-    
+
     context = {
         'products_by_cat': products_by_cat,
         "filter": f,
     }
 
     return render(request, 'filtered_by_cat.html', context)
+
 
 def product_detail(request, pk):
     '''
@@ -101,7 +101,7 @@ def product_detail(request, pk):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         form = ReviewForm()
-        
+
     context = {
         'product': product,
         'avg_rating': avg_rating,
@@ -109,3 +109,4 @@ def product_detail(request, pk):
         'form': form,
         }
     return render(request, "product_detail.html", context)
+    

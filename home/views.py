@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from products.models import Product, Category
 
+
 def top_products(request):
     all_products = Product.objects.all()
 

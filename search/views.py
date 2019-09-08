@@ -14,28 +14,25 @@ def do_search(request):
         product_list = Product.objects.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         ).distinct()
-    paginator = Paginator(product_list, 6) # 3 products per page
+    paginator = Paginator(product_list, 6)
     page = request.GET.get('page')
 
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         products = paginator.page(1)
     except EmptyPage:
-        # If page is out of range, deliver last page of results.
         products = paginator.page(paginator.num_pages)
 
     context = {
         'products': products
     }
-    
+
     amount = len(product_list)
     if amount == 0:
         messages.info(request, 'Unfortunately, your search returned no items.')
         return redirect(reverse('index'))
     elif amount > 0:
-        # messages.info(request, 'Results: {0} '.format(amount))
         return render(request, "products.html", context)
 
 

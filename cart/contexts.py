@@ -1,6 +1,8 @@
 '''
-Contexts need to be added to 'context_processors' under TEMPLATES in settings.py
-Context_processors are a list of things that are available on every webpage.
+Contexts need to be added to 'context_processors'
+under TEMPLATES in settings.py
+Context_processors are a list of
+things that are available on every webpage.
 '''
 from django.shortcuts import get_object_or_404
 from products.models import Product
@@ -21,6 +23,18 @@ def cart_contents(request):
         current_stock = product.cart_stock
         total += quantity * product.price
         product_count += quantity
-        cart_items.append({'id': id, 'quantity': quantity, 'product': product, 'current_stock': current_stock })
+        cart_items.append(
+            {
+                'id': id,
+                'quantity': quantity,
+                'product': product,
+                'current_stock': current_stock
+                }
+                )
 
-    return { 'cart_items': cart_items, 'total': total, 'product_count': product_count, 'current_stock': current_stock }
+    return {
+        'cart_items': cart_items,
+        'total': total,
+        'product_count': product_count,
+        'current_stock': current_stock
+        }

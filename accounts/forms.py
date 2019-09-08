@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
+
 class UserLoginForm(forms.Form):
     '''Form for logging user in'''
 
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
 
 class UserRegistrationForm(UserCreationForm):
     '''form to register a new user'''
@@ -41,3 +43,4 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError("Passwords must match")
 
         return password2
+        

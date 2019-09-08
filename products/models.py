@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Category(models.Model):
     category = models.CharField(max_length=80, default='')
 
@@ -18,8 +19,8 @@ class Kind(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=254, default='')
-    category = models.ForeignKey(Category, default='', on_delete=models.SET_DEFAULT)
-
+    category = models.ForeignKey(
+        Category, default='', on_delete=models.SET_DEFAULT)
 
 class Product(models.Model):
     name = models.CharField(max_length=254, default='')
@@ -35,3 +36,4 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+

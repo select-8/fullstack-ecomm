@@ -6,7 +6,7 @@ from .forms import ReviewForm
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
 
-# Create your views here.
+
 @login_required
 def add_a_review(request, product_id):
     product = get_object_or_404(Product, pk=product_id)

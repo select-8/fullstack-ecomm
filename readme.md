@@ -6,238 +6,260 @@
 
 ## Project Overview
 
-The project presented [here](https://greenlit-flaskapp.herokuapp.com/) is an imagined services for a film production house. It's only a matter of time before AI and machine learing technology is applied to the film industry, in fact it has [already happened](https://en.wikipedia.org/wiki/Sunspring).
+The project presented [here](https://greenlit-flaskapp.herokuapp.com/) is an imagined e-commerce site. The people at GoS are in the business of selling comics and graphic novels, toys and collectables related to comics and graphic novels, and some classic and modern Sci-Fi novels. A real world version would be something like [Forbidden Planet](https://forbiddenplanet.com/).
 
-This project is a prototype for how one might take thid to its next logical step, a production company that uses machine learning to assess the likelihood of a films success in the real world before any of the real work is done.
-
-Users of this site can add a movie idea, formatted around the idea of a [two minute elevator pitch](https://www.lightsfilmschool.com/blog/what-is-the-two-minute-elevator-pitch#). 
-
-Once they add a pitch they can submit it for processing by the companies machine learning algorithm would scrape the internet based on the content provided and evaluate based on certain criteria (whats worked before etc.) the likely success of the film id it was to be made.
-
-Now, I've obviously not built this. I've built the site around which this imagined service might be presented. In this itteration, when the submit button is selected, the status of the pitch is randomly selected i.e theres a 50% chance of it going either way.
-I have added some [Easter Eggs](https://en.wikipedia.org/wiki/Easter_egg_(media)) as proof of concept. For example a movie with David O Russel as the director and Christain Bale as the actor will not get greenlit given they a massive fall out while making American Hussel. Also, any pitch with Matt Damon will always fail unless it has more then five votes.
+I would imagine the store to have a long standing high street presence, with one or two stores in couple of cities around the country. This site represents their first entry to the online market.
 
 The goals of this project are to:
 
-Develop general Python skills.
-Write some vanilla python.
-Learn how to work in Flask.
-As I have a lot of previous experience with relational DB systems I choose to learn MongoDB on this project.
-To get an understanding of how to use session variables.
-To get experience working in with environments (here I used pipenv).
-To get some experience of deployment to Heroku.
-To make a site with a level of complexity I've not attempted before, and to make it a plesent experience for a user.
-
-## NOTE
-**Some features (delete users, flush pitches, view stat charts) are only available to the admin user. To view log in as 'admin' with the password 'admin'**
+- Continue to develop general Python skills.
+- Get some experience in a fullstack framework like Django.
+- Work with relational DB systems using the Django ORM.
+- To further my experience of deployment to Heroku.
+- To work with the Strip API.
+- To keep my models and apps relativley simple while allowing for future complexity.
+- to make it a plesent experience for a user.
 
 
 ### User Stories
 
-Three types of users:
- - Non registered browser
- - Registered user
- - Admin
+ ##### As a user I want to ...
+  - quickly understand whats on offer at this site.
+  - search for items I'm interested in.
+  - filter the content presented by category i.e. I'm here to look at comics, I dont need to see toys.
+  - be navigatation of the site to be easy and intuative. 
+  - sort items by price (high-to-low and low-to-high).
+  - access to detailed information about products.
+  - add products to a cart as I browse.
+  - be able to access my cart easily.
+  - be able to edit my cart by adding or deleting items.
+  - be able to register for the site.
+  - know if I am logged in, some personalisation. 
+  - be able to leave a comments and ratings for products.
+  - see what others have said about products.
+  - see an average of all ratings for each product.
+  - know if an item is in stock or not, this should include items in cart(s).
+  - be able to log out.
 
-
-##### As a non registered user
- - I want to quickly get a understanding of the site.
- - I want to be able to view examples of _pitches_
- - I want to have a content filter
- - I want to be able to register and partake 
-
- ##### As a registered user (member)
-  - I want to to log in and see my pitches
-  - I want to add new pitch ideas
-  - I want to edit current ideas
-  - I want to sort my pitches by votes
-  - I want to filter my own pitches by greenlit status
-  - I want to see and filter other peoples pitches
-  - I want to vote on other peoples pitches
-  - I want to be able to remove that vote
-  - I want to submit my pitch
-  - I want to remove pitches
-  - I want friendly messaging as to what my options are at each stage
-  - I want to be able to log out
-  - I don't what users who are not me to have write access on my pitches
-  - I don't want users to be able to vote for other pitches multiple times
-  - I don't want other users to be able to vote for their own pitches
-
- ##### As a admin user 
-  - I want to delete users
-  - I want to view and filter all pitches
-  - I want to see stat charts on users and user data
-  - I want my part of the site to be secure from other users
 
 ### Data Model
 
-#### Directors, Genres, Tags and Talent
-These four collections contain the users options when adding or editing a pitch. Initiallty I had stored them in a single collection but eventually decided that if I was to scale up the site they should be seperate. For example the Actors and Directors collections could be built up with data used to populate talent profile pages.
-The Tags and Genres collection could have write access allowed. For this project I decided not to allow users add their own.
+The data schema is constructed through the Django ORM. Data is stored in a locally hosted SQLITE instance for development and in a remote PostgreSQL instance when deployed for production.
 
-#### Users
-A document is inserted on a user registering.
 
-#### Status
-This is small collection used for the filter by status function
+#### Category
 
-#### Pitches
-Pitches collection documents are inserted on adding a pitch and updated on editing a pitch, voting for a pitch, submitting a pitch and removing a pitch. They contain all the data displayed in the pitch drop downs.
-On insert, tag storyboard data (tag_img1 etc) is automatically inserted to choose the corresponding images from the [images directory](static/images/).
+Each product is one of three possible categories
 
-#### Votes
-On clicking the vote button, If a pitch is not already in the votes collection, a new document with the pitches _id and an array is added to this collection, the current user's username will be the first item in the array. The vote field of the pitch
-in the pitches collection is incremented by 1.
-If the pitch's _id is in the votes collection and the current user is in the array,
-that voter's name is pulled from the array and the vote field of the pitch
-in the pitches collection is deincremented by 1.
-Otherwise, if the pitch's _id is in the votes collection and 
-the current user is NOT in the array, I push the current user to the array and
-increment the vote field of the pitch in the pitches collection by 1.
+                                    Table "public.products_category"
+        Column  |         Type          | Collation | Nullable |             Default              
+        ----------+-----------------------+-----------+----------+----------------------------------
+        id       | bigint                |           | not null | generated by default as identity
+        category | character varying(80) |           | not null | 
+        Indexes:
+            "products_category_pkey" PRIMARY KEY, btree (id)
+        Referenced by:
+            TABLE "products_brand" CONSTRAINT "products_brand_category_id_fkey" FOREIGN KEY (category_id) REFERENCES products_category(id)
+            TABLE "products_kind" CONSTRAINT "products_kind_category_id_fkey" FOREIGN KEY (category_id) REFERENCES products_category(id)
+            TABLE "products_product" CONSTRAINT "products_product_category_id_fkey" FOREIGN KEY (category_id) REFERENCES products_category(id)
 
-![](static/assets/db-schema.jpg)
+#### Product
+The main model for all products.
+Note: kind_id and views are not utilised in this project but may be in the future.
+
+- id: PK
+- name, description, price and image are static fileds, simply rendered, they don't change on user interaction with site.
+- category_id: 1-M FK constraint
+- stock: count of physical instances of this product
+- cart_stock: count of physical instances of this product less whats currently in carts
+- sales: amount of this product which has cleared through checkout
+
+
+                                        Table "public.products_product"
+        Column    |          Type          | Collation | Nullable |             Default              
+        -------------+------------------------+-----------+----------+----------------------------------
+        id          | bigint                 |           | not null | generated by default as identity
+        name        | character varying(254) |           | not null | 
+        description | text                   |           | not null | 
+        price       | numeric                |           | not null | 
+        image       | character varying(100) |           | not null | 
+        views       | bigint                 |           | not null | 
+        category_id | bigint                 |           | not null | 
+        kind_id     | bigint                 |           | not null | 
+        stock       | bigint                 |           | not null | 
+        sales       | bigint                 |           | not null | 
+        cart_stock  | bigint                 |           | not null | 
+        Indexes:
+            "products_product_pkey" PRIMARY KEY, btree (id)
+            "products_product_category_id_9b594869" btree (category_id)
+            "products_product_kind_id_027afdd1" btree (kind_id)
+        Foreign-key constraints:
+            "products_product_category_id_fkey" FOREIGN KEY (category_id) REFERENCES products_category(id)
+            "products_product_kind_id_fkey" FOREIGN KEY (kind_id) REFERENCES products_kind(id)
+        Referenced by:
+            TABLE "checkout_orderlineitem" CONSTRAINT "checkout_orderlineitem_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products_product(id)
+            TABLE "reviews_review" CONSTRAINT "reviews_review_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products_product(id)
+
+#### Review
+
+ - id: PK
+ - product_id: 1-M FK constraint
+ - user_id: 1-1 FK constraint
+ - created: timestamp crated on submission of review form
+ - comment: users comment
+ - rating: users rating
+
+
+                                        Table "public.reviews_review"
+        Column   |            Type             | Collation | Nullable |             Default              
+        ------------+-----------------------------+-----------+----------+----------------------------------
+        id         | bigint                      |           | not null | generated by default as identity
+        comment    | character varying(254)      |           | not null | 
+        created    | timestamp without time zone |           | not null | 
+        product_id | bigint                      |           | not null | 
+        user_id    | bigint                      |           |          | 
+        rating     | bigint                      |           | not null | 
+        Indexes:
+            "reviews_review_pkey" PRIMARY KEY, btree (id)
+            "reviews_review_product_id_ce2fa4c6" btree (product_id)
+            "reviews_review_user_id_875caff2" btree (user_id)
+        Foreign-key constraints:
+            "reviews_review_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products_product(id)
+            "reviews_review_user_id_fkey" FOREIGN KEY (user_id) REFERENCES auth_user(id)
+
 
 ### UX
+
+#### System Architecture
+![](static/images_rm/SysArch.jpg)
+
 #### Wireframes
 
-[Here](static/assets/wireframes/)
+[Here](static/images_rm/)
 
+#### Brand
+
+I imagine the brand for this site to be a play on Sci-Fi tropes, i.e a bit mysterious and playful with the content but serious when getting to the real business. This idea should feed through the site content.
 
 #### Typography
 
-Default system fonts are used for the bulk of text.
-The text in the pitch dropdown is courier as is the style for screenplays and scripts.
+Cute Font is a cursive font. I choose this font initially as it renders the charcaters G O S in a way that makes them slightly ambiguous, they could be read as 6 0 5. I think this fits with the brand of the site.
 
-### Features
+With a font like this it is easy to overkill, to this end it is used sparingly and never in paragraph text.
 
-##### Login/Register/logout
+Cute Font was used for:
+ - Site Name
+ - Product Name
+ - Footer text
 
-Users can register, log in and log out. For each state of user there is some custom content and messaging.
+ Lato is sans serif. While being nicley readable, it is semi-rounded and therefore compliments the Cute text well. It also works well as bold text.
 
-##### Navbar
+ Lato was used in:
+ - Paragraphs
+ - Category links
+ - Buttons
+ - Forms
 
-The navbar builds on the process outlined [here](https://jinja.palletsprojects.com/en/2.10.x/tricks/). 
-Active pages are highlighted and each state of user get custom navigation options.
+#### Colour
 
-##### View
+Dark Black for the Navbar works well with the Purple used as the main background colour. While maintaining a dark shell shell around the lighter content, they are also distinct from each other.
+The Purple is used to convey that sense of mystery as required by the site brand.
 
-A non logged in user can view all pitches.
-A logged in user can view all other pitches at one end point and just their own at another.
-Pitches are presented in a custom jQuery dropdown.
+The cards are Bootstrap, with a White background colour and black text. The product name in Cute Font use the same Purple as the container background. Ive used a dark red to block out the card content.
 
-##### Filter / Sort
+The text outside of the cards is White, allowing for contrast with the darker background. The red is used again for < hr > elements.
 
-Users can filter their own pitches by their greenlit status.
-Users can filter all pitches by genre.
-Users can sort pitches by votes.
+![](static/images_rm/colours.png)
 
-I had initally created multiple routes to achieve this. This way allowed me to add multiple filters to a single page, each filter would load a new page. On speaking to my mentor it was suggested that this is not the standard approach, that I should use query parameters. In doing so I was not able to replicate the multiple filters without altering the style of my dropdowns to include a submit button. I'm sure given some more time and effort I could get it to work. For now it is what it is, I'm glad I made the change and learned something about how to use query parameters. Though it means that a users filter is cleared when they tru to sort.
 
-##### Add
 
-Users can add new pitches. They have to choose at least a Title and a Genre. The validation for this is handled server side by Python.
+## Features
+### Apps
 
-As a play on the two minute pitch idea, descritions can be a max of 399 characters.
+- Home
+- Products
+- Cart
+- Checkout
+- Reviews
+- Search
+- Accounts
 
-Users can choose from some classic movies and locations to build a tagline.
-Depending on what the choose, an image storyboard is automatically created.
-If they do not choose from one of the options, default text is inserted along with a random picture of an animal.
 
-##### Edit
+#### Navigation
 
-Users have three edits for each pitch. On update the num_edit field is incremenetd by 1. The button in the html is deactived and a tooltip message displayed informing the user that they have reached max number of edits. The submit button also deactivates. It then reactives if that pitch gets more then 5 votes.
+The Navabr is made up of two elements. 
+ 1. A Bootstrap < nav > element
+    - If user is logged in we display the user's username.
+    - Brand name, links to home page.
+    - Product catgory links. The 'path' element of the request is queried to display the relevent category as an "active" element.
+    - Icons links to log in/out register
+    - A count of cart items
+ 2. A Bootstrap < container-fluid > element
+    - Search Bar
+    - Browse All Products link
+    - If viewing all products, a sort by price dropdown
 
-At the time of submission I was not able to find a multiline text input where the current values are retined and directly editable.
-textareas do not allow this, you can have the data there but it will dissappear as soon as its activated by the cursor. The basic inputs used cannot be multiline but do allow direct editing of current values. As a result the inputs for editing are a bit too small and impractical.
 
-##### Vote
+#### User
 
-Users can vote for other users pitches not there own.
-They can up vote and remove their vote.
+Non logged in users have access to all features besides leaving a review.
 
-##### Submit
+Users can register via a simple form. Once registered users can reset their email address.
 
-Users can submit if they have less than 3 edits made or if they have more than 5 votes.
-Conveniently, in order for this to be tested I have a pitch with 3 edits and 4 votes ready. To test:
-- log in as user: mary, password: mary
-- look for the pitch titled: 'Mary The Return' 
-- it has no edits left, the submit button is deactivated and it has four votes
-- log out and in as your own user
-- vote for 'Mary The Return' 
-- log back in as mary and the submit button should be activated 
+Logged in users have their name displayed in the Navbar, can add reviews and rating for products, logout.
 
-In the time I had I was not able to make it so a user would have one submit on initially creating a pitch and would then have to make a edit before being able to resubmit. This will need to left to the next phase of development.
+#### Detailed Product Views
 
-##### Remove / Delete
+In the multi product views a products description is truncated to 10 words with a prompt to click for more information. This links to new page where the card is full width and the entirity of a product's information is displayed. On mobile screens, if a description goes over 120 characters it is again truncated with an option to display more. This triggers a dropdown rather than loading a new page.
 
-User can remove their Pitch. As far as they know this totally removes it but it actually just updates a boolean so it is not rendered. 
-The admin user van completely delete all removed edits.
+A button to add items to your cart. The max quantity a user is allowed to add is rendered from the **cart_stock** value in the db.
 
-##### Content / Messaging
+We also display a form where logged in users can leave a comment and select a rating for a product. On submit the review is rendered ordered by timestamp.
 
-Flash messaging is used to relay information to the user
+#### Search / Filter / Sort
 
-##### Admin
+Search is full text query using Django **icontains** on the name and description fields for products.
+Products can be filtered by category via links in the Navbar.
+When in all products view, products can be sorted by price in both directions.
 
-The admin user can:
-1. delete users
-2. flush all removed pitches
-3. View some charts
+#### Pagination
 
-###### Charts
+All products and category views use Django pagination.
 
-D3, DC and crossfilter have been used to render live charts from the data in MongoDB.
+#### Stock
 
-I followed the blog post [here](http://adilmoujahid.com/posts/2015/01/interactive-data-visualization-d3-dc-python-mongodb/) to achive this.
+Each product has a value for **stock** and **cart_stock**.
 
-The get_data route finds all the pitches data and appends to an array. The data in the array is then dumped to json and made available at the get_data/ end point to D3 to access and render.
+For each item processed via the checkout, the quantity in the cart is subtracted from the stock value and the db is updated.
+When the quantity of product added to the cart reaches the max total of **cart_stock** in the db, no more of that item can be added to the cart. Subsequently if a user removes or alters an items quantity when in the cart, this amount is added back onto the amount available to the users.
+On successfull payment, **stock** and **cart_stock** are realigned in the db.
 
-I have added some basic charts as proof of concept but there is a lot of scope for further developement when the dataset itself grows.
+#### Sales
+On the home page each carousel is displaying the top three sold items. The sales value is read from the db and updated on sucessful checkout.
 
+#### Cart
+Users can add items to their cart, view current cart, alter quantity of a cart item, remove an item from the cart.
+
+#### Checkout
+As with cart, users can add, edit and remove items. The checkout uses Stripe to process payments.
+
+#### Review
+Logged in users can leave review and rate products.
 
 #### Left to Implement
 
-- Talent Profiles
-- Blocking submit until a new edit is made
-- More Charting
-- Better User data
-    - user own stats page / profile
-- UX
-    - flash message styling
-    - better typography
-    - Pagination
-- Multiple Query Parameters for filter and sort
-- Code refactoring 
-- Flask login instead of session login
+The product model should have distinct classes for each category of product. With this in place each type of product could contain bespoke details, books can have authors and toys can have brand for example.
 
+Stock control should be its own app to afford it more complexity. Currently the stock in a cart is only factored into the UX once it hit zero. In a future developement each tick of the quantity button would be calculated to give the user feedback.
 
 ## Testing
 
-There is no automated testing.
+Besides checking data types, there is no automated testing.
 
-Manual Testing through development of the site consisted of asking the following questions each time a significnat feature was added, removed or changed. 
+Manual Testing through development of the site consisted of asking the following questions each time a significant feature was added, removed or changed. 
 
 What happens:
 
-	- if no pitches exist in collection?
-		- for non logged in
-		- for logged in
-			- in own ps
-			- in all ps
-		- for admin	
-	- if user does not use correct case on text input?
-		- in edit
-		- in view
-    - if user maually enters url endpoints?
-        - non logged in 
-        - logged in
-        - admin
-        - do the messaging/redirects make sense, can they get home and start again?
-    - if a pitch is removed (is_del == True)
-        - to any app function which requires a count of documents?
-    - when viewed, if user does not select from options on add/edit
-        - to text
-        - to storyboard
     - when users click links, are they ever confused about where they are, do they have further options, can they always get home
         - logged in
         - not logged in
@@ -269,14 +291,13 @@ The site was also physically tested on a Samsung Galaxy Tab, an iPhone 6, a Wind
 ##### Browsers
 The site was tested in Chrome, FireFox, Safari and Opera.
  
-
 ### Validation
 
 CSS files where found to be valid via the offical W3 code validators.
 
 CSS : https://jigsaw.w3.org/css-validator/
 
-HTML has not been validated or commented as html as neither will work in a Jinja template
+HTML has not been validated or commented as html as neither will work in a django template
 
 JavaScript files were tested at : https://jshint.com/
 
