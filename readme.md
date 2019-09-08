@@ -263,18 +263,31 @@ What happens:
     - when users click links, are they ever confused about where they are, do they have further options, can they always get home
         - logged in
         - not logged in
-        - admin
         - after initial register
         - after logging out
     - when user enter incorrect username/password
-    - when a user is newly registered
-        - is the messaging correct
-        - can they easily add a pitch
-        - are their options re edits clear
-        - does the edit function work
-        - does the submit function work
-    - at all times
-        - are the dropdown options working?
+    - to the cart and add button when a user adds or removes items from their cart
+    - when a user removes cart items and proceeds through checkout
+    - when a user adds a review comment but not a rating and vice versa
+
+Is the messaging correct when a user goes through the reset password process.
+
+Site functions where the db is updated where tested against the database, both locally as SQLITE and once deployed as Postgres.
+
+The remote Postgres DB can be connected to via the terminal using the PSQL command line tool and the credentials available on the Heroku site.
+
+For example, I can add a quantity of 'Foundation' to the cart and query the db for expected results.
+
+        id |    name    | stock | cart_stock | sales 
+        ----+------------+-------+------------+-------
+        23 | Foundation |     1 |          0 |    45
+        (1 row)
+
+Then proceed through checkout and query again:
+
+        id |    name    | stock | cart_stock | sales 
+        ----+------------+-------+------------+-------
+        23 | Foundation |     0 |          0 |    46
 
 The site deployed to Heroku was also periodically tested asking the above questions.
 
@@ -309,24 +322,47 @@ I used a 'walking the skelethon' approach, deploying early to Heroku.
 
 The site is deployed to Heroku under the following process:
 
-1. Create a local git respositry in your project
-2. Push to Github
-3. In Heroku, under Deploy - Deployment Method: Connect to GitHub
-4. Follow guidlines to connect the app to the GitHub repo
-5. Allow automatic deploys
-6. Under setting - Reveal Config Vars
-    - set the port to 0.0.0.0 - this opens your app to all IPS
-    - set the port to what you want
-    - debug to false
-    - set the relevant MONGO URI
-7. When code is pushed to GitHub it is automatically depolyed to the Heroku app
-8. Once the project is built, launch the app and test
+1. Git (versioning)
+    - Create a local git respositry in your project
+    - Create a .gitignore
+    - Create a readme.md
+    - Do: git add .
+    - Do: git commit -m "some relevent message"
+2. Github (versioning)
+    - Create a new repo
+    - Give it a name
+    - push your local existing git repository from the command line
+3. Travis (continuous integration)
+    - Search for and link to your git repo
+    - Copy you status image text as markdown and paste at the top of your readme.md
+    - In your project folder create a .travis.yml with relevent info (language etc.)
+    - Add, Commit and Push to git
+    - Trigger a build
+    - Fix any issues and repeat until you see the green 'passing' icon
+4. In Heroku (deployment)
+    - Create a new app
+    - Provision a PostgreSQL instance 
+    - Under Settings access the Config Vars, your DB URI should automatically be in place
+    - In your project make sure to have whitenoise, dj-database-url, psycopg2 and gunicorn installed
+    - In your project folder create a Procfile with the gunicorn server referenced 
+    - Add subsequent variables:
+        - EMAIL_ADDRESS and EMAIL_PASSWORD for password reset feature
+        - Django SECRET_KEY (from generated setting.py on running startproject)
+        - STRIPE_PUBLISHABLE and STRIPE_SECRET provided by Stripe
+    - Under Deploy 
+        - Deployment Method: Connect to GitHub
+        - Follow guidlines to connect the app to the GitHub repo
+    - Push from git
+    - Once the project is built by Heroku, open the app
+    - Debug any issues present in the logs
+    - Allow automatic deploys
+
 
 ### How to clone locally
 
 The site can be cloned from GitHub and ran locally by following the following steps:
 
-- Go to my [repo](https://github.com/select-8/greenlit-flask-mongodb)
+- Go to my [repo](https://github.com/select-8/fullstack-ecomm)
 - Click the Clone or Download option
 - Copy tyhe Url
 - In your local environment, wherever you want to store the code do: 
@@ -339,26 +375,13 @@ The site can be cloned from GitHub and ran locally by following the following st
     - pipenv shell 
 - Install project requirments using the requirments.txt file
     - pipenv install -r requirements.txt
-- Create a .flaskenv file
-    - touch .flaskenv
-    - nano .flaskenv
-        - FLASK_ENV=development
-    - ctrl-X to prompt exit
-    - y to save edit
-- You can now run the project by doing:
-    - flask run
-    - open the app at http://127.0.0.1:5000/
-
-However, you will not have access to the data. To got this you will need to create your own mongo instance and upload the dump files located [here](static/assets/greenlit) 
-To do this you can used the mongoimport command:
-            
-    mongoimport --db <dbname> --collection <collection_name>
-        --authenticationDatabase admin --username <user> --password <password> 
-        --drop --file ~\path\to\files.json
-
-Then set the MONGO_URI environment variable in a .env file
-
-You should now be able to register and start adding pitches!
+- Create your db
+    - python3 manage.py migrate
+- Create a .env to set environment variables (see setting.py for what you need to set)
+- Create a superuser for the Django admin panel
+    - python3 manage.py createsuperuser
+- Start the server
+    - python3 manage.py runserver
 
 ## Technologies Used
 
@@ -382,25 +405,23 @@ Create virtual python environments.
 
 Use pipenv install ... to install project requirments 
 
-A .flaskenv file with FLASK_ENV=development means your always in debug mode
 
 ##### FRAMEWORKS
 
-- [Flask](https://palletsprojects.com/p/flask/)
+- [Django](https://www.djangoproject.com/)
 
     - Used to build the web application
-    - Imports
-        - session - to manage user sessions
-        - flash - to display messages on user actions
-        - render_template, redirect, url_for - used to navigate user to the correct end points
-        - request - for query parameters
-        - flask_pymongo - flask binding for mongodb
-        - bcrypt - password encryption 
-        - datetime - to parse time
+    - Dependencies 
+        - [dj-database-url](https://pypi.org/project/dj-database-url/) DB config from Django
+        - [whitenoise](http://whitenoise.evans.io/en/stable/)  Static file serving for Python web apps
+        - [django-forms-bootstrap](https://github.com/pinax/django-forms-bootstrap#django-forms-bootstrap) Bootstrap filter for Django forms
+        - [gunicorn](https://gunicorn.org/) Python WSGI HTTP Server for UNIX
+        - [Pillow](https://pillow.readthedocs.io/en/stable/#)
+        - [psycopg2](https://pypi.org/project/psycopg2/) PostgreSQL database adapter for Python
 
-- [Jinja](https://jinja.palletsprojects.com/en/2.10.x/templates/)
+- [Stripe](https://stripe.com/ie)
 
-Templating engine used with flask to render html
+API for processing online payments
 
 - [Bootstrap](https://getbootstrap.com/)
 
@@ -408,32 +429,27 @@ To create a responsive grid
 
 - [jQuery](https://jquery.com/)
 
-To create the dropdown effect for pitches and do do tooltips
+To create the dropdown effect for detail product views on mobile
 
-- [D3](https://d3js.org/)
-
-To render the charts in the DOM as SVG
-
-- [dc.js](https://dc-js.github.io/dc.js/)
-
-Provided templates for the charts
-- [crossfilter.js](https://square.github.io/crossfilter/)
-
-Provides multidimentional filtering of data in dc charts
-
-- [queue.js](https://github.com/d3/d3-queue)
-
-Evaluates asynchronous tasks to handle callbacks
 
 ##### APIs
  - [Google Fonts](https://fonts.google.com/)
+ - [fontawesome](https://fontawesome.com/)
 
 ##### SOFTWARE AND SERVICES
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [GitHub](https://github.com/)
 
 ##### Database
-- [MongoDB](https://www.mongodb.com)
+- For local development I used [sqlite](https://www.sqlite.org/index.html)
+- On Heroku, [PostgreSQL](https://www.postgresql.org/) was used 
+
+I added most of the content locally to my sqlite instance. In order to not have to repeat this process in Postgres I used a Ruby command line tool to push my sqlite data to a newly provisioned i.e. empty, Postgres instance provided by heroku.
+
+        gem install sequel pg sqlite3
+        sequel -C sqlite:///Path/to/your/db.sqlite3 POSTGRES_URI
+    
+The POSTGRES_URI can be copied from the DB credential settings on Heroku.
 
 ##### EDITORS
 - SUBLIME
@@ -451,7 +467,14 @@ Evaluates asynchronous tasks to handle callbacks
 
 ## Credits
 
-The flask and Jinja and mongodb documentation was used heavily.
+The Django documentation was used heavily.
 
-The code to remove NULL rows from the results of a crossfilter was found [here](https://github.com/dc-js/dc.js/wiki/FAQ#remove-empty-bins)
+The project was built out from the Code Institute's Ecommerce walk through.
+
+[This](http://shopnilsazal.github.io/django-pagination-with-basic-search/) for pagination with search
+
+[This](https://www.viralpatel.net/dynamically-shortened-text-show-more-link-jquery/) For jQuery short descriptions by screen size
+
+[This](https://github.com/Code-Institute-Submissions/gorgeous-online-shop) code institute student submission provided some inspiration for the sort function (thanks whoever you are)
+
 

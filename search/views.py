@@ -5,8 +5,6 @@ from django.db.models import Q
 from products.models import Product, Category
 
 
-# http://shopnilsazal.github.io/django-pagination-with-basic-search/
-
 def do_search(request):
     product_list = Product.objects.all()
     query = request.GET.get('q')
