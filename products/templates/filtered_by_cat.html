@@ -6,8 +6,9 @@
     {% for product in products_by_cat %}
     <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4">
         <div class="card display-card">
-            <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
-            </div>
+            <a href="{% url 'product_detail' product.id %}" class="product"
+                style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
+            </a>
             <hr>
             <div class="container">
                 <h5 class="product-name">{{ product.name }}</h5>
@@ -44,10 +45,12 @@
         <span class="step-links">
             {% if products_by_cat.has_previous %}
             <a class="page-first-last" href="?page=1">&laquo; first</a>
-            <a class="page-next-pre" href="?page={{ products_by_cat.previous_page_number }}&sort={{ order }}">previous</a>
+            <a class="page-next-pre"
+                href="?page={{ products_by_cat.previous_page_number }}&sort={{ order }}">previous</a>
             {% endif %}
             <span class="current">
-                - Page <span class="page">{{ products_by_cat.number }}</span> of <span>{{ products_by_cat.paginator.num_pages }} -</span>
+                - Page <span class="page">{{ products_by_cat.number }}</span> of
+                <span>{{ products_by_cat.paginator.num_pages }} -</span>
             </span>
             {% if products_by_cat.has_next %}
             <a class="page-next-pre" href="?page={{ products_by_cat.next_page_number }}&sort={{ order }}">next</a>
