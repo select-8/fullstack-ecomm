@@ -9,7 +9,7 @@ class EmailAuth:
         verifiy the password
         '''
         try:
-            user = User.objects.get(email=username) # username is the form element 
+            user = User.objects.get(email=username) 
 
             if user.check_password(password):
                 return user

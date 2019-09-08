@@ -15,7 +15,6 @@
             <li data-target="#carouselBooks" data-slide-to="1"></li>
             <li data-target="#carouselBooks" data-slide-to="2"></li>
         </ol>
-        <!-- https://stackoverflow.com/questions/27219078/bootstrap-carousel-implementation-in-django -->
         <div class="carousel-inner">
             {% for product in top_books|slice:":3" %}
             {% if forloop.counter0|divisibleby:"3" %}
@@ -87,7 +86,6 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
-        <!-- https://stackoverflow.com/questions/27219078/bootstrap-carousel-implementation-in-django -->
         <div class="carousel-inner">
             {% for product in top_toys|slice:":3" %}
             {% if forloop.counter0|divisibleby:"3" %}
@@ -159,7 +157,6 @@
             <li data-target="#carouselComics" data-slide-to="1"></li>
             <li data-target="#carouselComics" data-slide-to="2"></li>
         </ol>
-        <!-- https://stackoverflow.com/questions/27219078/bootstrap-carousel-implementation-in-django -->
         <div class="carousel-inner">
             {% for product in top_comics|slice:":3" %}
             {% if forloop.counter0|divisibleby:"3" %}

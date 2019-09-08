@@ -489,4 +489,6 @@ The project was built out from the Code Institute's Ecommerce walk through.
 
 [This](https://github.com/Code-Institute-Submissions/gorgeous-online-shop) code institute student submission provided some inspiration for the sort function (thanks whoever you are)
 
+[This](https://stackoverflow.com/questions/27219078/bootstrap-carousel-implementation-in-django) for 'active' setting in carousel.
+
 

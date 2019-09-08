@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 from dotenv import load_dotenv
 import os
 import dj_database_url
-import sys
 
 
 if os.environ.get('DEVELOPMENT'):
@@ -56,8 +55,7 @@ INSTALLED_APPS = [
     'search',
     'reviews',
     'django_filters',
-    'home',
-    'storages',
+    'home'
 ]
 
 MIDDLEWARE = [
@@ -161,7 +159,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIAFILES_LOCATION = 'media'
-# DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
