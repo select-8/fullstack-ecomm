@@ -8,8 +8,6 @@
 
 The project presented [here](https://fullstack-ecom.herokuapp.com/) is an imagined e-commerce site. The people at GoS are in the business of selling comics and graphic novels, toys and collectables related to comics and graphic novels, and some classic and modern Sci-Fi novels. A real world version would be something like [Forbidden Planet](https://forbiddenplanet.com/).
 
-I would imagine the store to have a long standing high street presence, with one or two stores in couple of cities around the country. This site represents their first entry to the online market.
-
 The goals of this project are to:
 
 - Continue to develop general Python skills.
@@ -65,7 +63,6 @@ Each product is one of three possible categories
 
 #### Product
 The main model for all products.
-Note: the __kind_id__ and __views__ fields are not utilised in this project but may be in the future.
 
 - id: PK
 - name, description, price and image are static fileds, simply rendered, they don't change on user interaction with site.
@@ -133,13 +130,9 @@ Note: the __kind_id__ and __views__ fields are not utilised in this project but 
 #### System Architecture
 ![](static/images_rm/SysArch.jpg)
 
-#### Wireframes
-
-[Here](static/images_rm/)
-
 #### Brand
 
-I imagine the brand for this site to be a play on Sci-Fi tropes, i.e a bit mysterious and playful with the content but serious when getting to the real business. This idea should feed through the site content.
+I imagine the brand for this site to be a play on Sci-Fi tropes, i.e a bit mysterious and playful with the content.
 
 #### Typography
 
@@ -248,19 +241,13 @@ Logged in users can leave review and rate products.
 
 #### Left to Implement
 
-The product model should have distinct classes for each category of product. With this in place each type of product could contain bespoke details, books can have authors and toys can have brand for example.
+Developement of the product model into distinct classes for each category of product. 
 
-Stock control should be its own app to afford it more complexity. Currently the stock in a cart is only factored into the UX once it hit zero. In a future developement each tick of the quantity button would be calculated to give the user feedback.
-
-From testing I found a few bugs the stock/cart system, for example if a user adds all available of an item to the cart they cannot, once in cart view, remove quantities via the input, they need to remove the whole item and start again. 
-
-I see this site as having a loyal customer base. I would extend the logged in user element by creating a members area. Members could avail of special offers, organise meet ups to play Dungeons and Dragons, get first on list for pre orders and special items.
+Stock control should be its own app to afford it more complexity. Currently the stock in a cart is only factored into the UX once it hit zero. 
 
 An auction feature for rare items like Spiderman #1 or a signed copy of The Watchmen etc.
 
 ## Testing
-
-Besides checking data types, there is no real useful automated testing.
 
 Manual Testing through development of the site consisted of asking the following questions each time a significant feature was added, removed or changed. 
 
@@ -314,22 +301,8 @@ The site was also physically tested on a Samsung Galaxy Tab, an iPhone 6, a Wind
 
 ##### Browsers
 The site was tested in Chrome, FireFox, Safari and Opera.
- 
-### Validation
-
-CSS files where found to be valid via the offical W3 code validators.
-
-CSS : https://jigsaw.w3.org/css-validator/
-
-HTML has not been validated or commented as html as neither will work in a django template
-
-JavaScript files were tested at : https://jshint.com/
-
-Python was checked for Pep* compliance at : http://pep8online.com/
 
 ## Deployment
-
-I used a 'walking the skelethon' approach, deploying early to Heroku.
 
 The site is deployed to Heroku under the following process:
 
@@ -441,16 +414,7 @@ To create a responsive grid
 
 - [jQuery](https://jquery.com/)
 
-To create the dropdown effect for detail product views on mobile
-
-
-##### APIs
- - [Google Fonts](https://fonts.google.com/)
- - [fontawesome](https://fontawesome.com/)
-
-##### SOFTWARE AND SERVICES
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [GitHub](https://github.com/)
+To create the dropdown effect for detail product views on mobil
 
 ##### Database
 - For local development I used [sqlite](https://www.sqlite.org/index.html)
@@ -463,31 +427,13 @@ I added most of the content locally to my sqlite instance. In order to not have 
     
 The POSTGRES_URI can be copied from the DB credential settings on Heroku.
 
-##### EDITORS
-- SUBLIME
-- ATOM
-
-##### VMWARE
-- UBUNTU V18.04
-
-##### HARDWARE
-- MAC OSX
-
-##### PROJECT MGMT
-- SLACK
-- NOTION
-
 ## Credits
 
 The Django documentation was used heavily.
 
-The project was built out from the Code Institute's Ecommerce walk through.
-
 [This](http://shopnilsazal.github.io/django-pagination-with-basic-search/) for pagination with search
 
 [This](https://www.viralpatel.net/dynamically-shortened-text-show-more-link-jquery/) For jQuery short descriptions by screen size
-
-[This](https://github.com/Code-Institute-Submissions/gorgeous-online-shop) code institute student submission provided some inspiration for the sort function (thanks whoever you are)
 
 [This](https://stackoverflow.com/questions/27219078/bootstrap-carousel-implementation-in-django) for 'active' setting in carousel.
 
